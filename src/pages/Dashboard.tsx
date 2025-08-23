@@ -2,6 +2,14 @@ import { useState } from "react"
 import { Sidebar } from "@/components/layout/sidebar"
 import { DashboardFilters } from "@/components/dashboard/filters"
 import { DashboardOverview } from "@/components/dashboard/overview"
+import { FinanceSection } from "@/components/dashboard/finance"
+import { OccupancySection } from "@/components/dashboard/occupancy"
+import { SalesSection } from "@/components/dashboard/sales"
+import { TrafficSection } from "@/components/dashboard/traffic"
+import { OpsSection } from "@/components/dashboard/ops"
+import { GuestExperienceSection } from "@/components/dashboard/guest-experience"
+import { CleaningQualitySection } from "@/components/dashboard/cleaning-quality"
+import { AdminSection } from "@/components/dashboard/admin"
 import { addDays, subWeeks } from "date-fns"
 
 export default function Dashboard() {
@@ -19,53 +27,21 @@ export default function Dashboard() {
       case "overview":
         return <DashboardOverview />
       case "finance":
-        return (
-          <div className="flex items-center justify-center h-64 bg-card rounded-lg border border-card-border">
-            <p className="text-muted-foreground">Section Finance - En développement</p>
-          </div>
-        )
+        return <FinanceSection />
       case "occupancy":
-        return (
-          <div className="flex items-center justify-center h-64 bg-card rounded-lg border border-card-border">
-            <p className="text-muted-foreground">Section Occupancy & Leasing - En développement</p>
-          </div>
-        )
+        return <OccupancySection />
       case "sales":
-        return (
-          <div className="flex items-center justify-center h-64 bg-card rounded-lg border border-card-border">
-            <p className="text-muted-foreground">Section Sales - En développement</p>
-          </div>
-        )
+        return <SalesSection />
       case "traffic":
-        return (
-          <div className="flex items-center justify-center h-64 bg-card rounded-lg border border-card-border">
-            <p className="text-muted-foreground">Section Traffic & Parking - En développement</p>
-          </div>
-        )
+        return <TrafficSection />
       case "ops":
-        return (
-          <div className="flex items-center justify-center h-64 bg-card rounded-lg border border-card-border">
-            <p className="text-muted-foreground">Section Ops Excellence - En développement</p>
-          </div>
-        )
+        return <OpsSection />
       case "guest":
-        return (
-          <div className="flex items-center justify-center h-64 bg-card rounded-lg border border-card-border">
-            <p className="text-muted-foreground">Section Guest Experience - En développement</p>
-          </div>
-        )
+        return <GuestExperienceSection />
       case "cleaning":
-        return (
-          <div className="flex items-center justify-center h-64 bg-card rounded-lg border border-card-border">
-            <p className="text-muted-foreground">Section Cleaning Quality - En développement</p>
-          </div>
-        )
+        return <CleaningQualitySection />
       case "admin":
-        return (
-          <div className="flex items-center justify-center h-64 bg-card rounded-lg border border-card-border">
-            <p className="text-muted-foreground">Section Admin - Données - En développement</p>
-          </div>
-        )
+        return <AdminSection />
       default:
         return <DashboardOverview />
     }
