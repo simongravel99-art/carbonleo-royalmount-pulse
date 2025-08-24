@@ -1,0 +1,16 @@
+Date,Service_Category,Satisfaction_Score,Total_Reviews,Positive_Reviews,Negative_Reviews,NPS_Score,Response_Time_Hours
+2024-01-01,Overall Experience,4.2,85,68,8,72,2.5
+2024-01-01,Room Service,4.1,32,26,3,68,1.8
+2024-01-01,Front Desk,4.5,45,41,2,78,0.5
+2024-01-01,Housekeeping,4.3,38,32,3,74,4.2
+2024-01-01,Restaurant,4.0,52,39,7,65,1.2
+2024-01-02,Overall Experience,4.3,92,76,6,75,2.3
+2024-01-02,Room Service,4.2,35,29,2,71,1.6
+2024-01-02,Front Desk,4.6,48,44,1,82,0.4
+2024-01-02,Housekeeping,4.4,42,36,2,78,3.8
+2024-01-02,Restaurant,4.1,56,43,5,68,1.1
+2024-01-03,Overall Experience,4.4,98,84,5,78,2.1
+2024-01-03,Room Service,4.3,38,32,2,74,1.5
+2024-01-03,Front Desk,4.7,52,48,1,85,0.3
+2024-01-03,Housekeeping,4.5,45,40,1,81,3.5
+2024-01-03,Restaurant,4.2,61,48,4,71,1.0

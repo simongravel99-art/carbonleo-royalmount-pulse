@@ -1,0 +1,13 @@
+Date,Department,Efficiency_Score,Downtime_Minutes,Maintenance_Tasks,Staff_Utilization,Energy_Consumption,Cost_Per_Hour
+2024-01-01,Housekeeping,92.5,15,8,85.2,1250,45.80
+2024-01-01,Security,96.8,5,2,88.9,800,52.30
+2024-01-01,Maintenance,89.2,25,12,82.1,1800,48.90
+2024-01-01,Front Desk,94.7,10,3,91.5,400,38.60
+2024-01-02,Housekeeping,93.1,12,7,86.8,1280,46.20
+2024-01-02,Security,97.2,3,1,89.5,820,52.80
+2024-01-02,Maintenance,90.5,20,10,84.3,1750,49.40
+2024-01-02,Front Desk,95.3,8,2,92.1,420,39.10
+2024-01-03,Housekeeping,94.2,10,6,88.1,1300,46.80
+2024-01-03,Security,97.8,2,1,90.2,840,53.20
+2024-01-03,Maintenance,91.8,18,9,85.7,1720,50.10
+2024-01-03,Front Desk,96.1,6,2,93.4,440,39.70

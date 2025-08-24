@@ -1,0 +1,10 @@
+Date,Product_Category,Sales_Amount,Quantity_Sold,Average_Order_Value,Total_Transactions,Conversion_Rate,Customer_Count
+2024-01-01,Food & Beverage,45000,180,250.00,180,12.5,1440
+2024-01-01,Retail,25000,85,294.12,85,8.2,1037
+2024-01-01,Services,15000,35,428.57,35,15.8,222
+2024-01-02,Food & Beverage,48000,185,259.46,185,13.1,1412
+2024-01-02,Retail,27000,92,293.48,92,8.8,1045
+2024-01-02,Services,16000,38,421.05,38,16.2,235
+2024-01-03,Food & Beverage,52000,195,266.67,195,13.8,1413
+2024-01-03,Retail,30000,98,306.12,98,9.2,1065
+2024-01-03,Services,18000,42,428.57,42,17.1,246

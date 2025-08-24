@@ -1,0 +1,16 @@
+Date,Area,Quality_Score,Tasks_Completed,Tasks_Total,Completion_Rate,Inspector,Time_Spent_Minutes
+2024-01-01,Guest Rooms,94.5,95,100,95.0,Inspector A,480
+2024-01-01,Lobby,96.8,18,18,100.0,Inspector B,120
+2024-01-01,Restaurants,92.3,25,28,89.3,Inspector A,180
+2024-01-01,Bathrooms,89.7,42,45,93.3,Inspector C,240
+2024-01-01,Common Areas,91.2,35,38,92.1,Inspector B,150
+2024-01-02,Guest Rooms,95.2,98,100,98.0,Inspector A,475
+2024-01-02,Lobby,97.1,18,18,100.0,Inspector B,115
+2024-01-02,Restaurants,93.1,27,28,96.4,Inspector A,175
+2024-01-02,Bathrooms,90.8,44,45,97.8,Inspector C,235
+2024-01-02,Common Areas,92.5,37,38,97.4,Inspector B,145
+2024-01-03,Guest Rooms,96.1,99,100,99.0,Inspector A,470
+2024-01-03,Lobby,97.8,18,18,100.0,Inspector B,110
+2024-01-03,Restaurants,94.2,28,28,100.0,Inspector A,170
+2024-01-03,Bathrooms,91.5,45,45,100.0,Inspector C,230
+2024-01-03,Common Areas,93.1,38,38,100.0,Inspector B,140
