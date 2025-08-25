@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Sidebar } from "@/components/layout/sidebar"
-import { DashboardFilters } from "@/components/dashboard/filters"
+import { Header } from "@/components/layout/header"
+import { DashboardFilters } from "@/components/filters/dashboard-filters"
 import { DashboardOverview } from "@/components/dashboard/overview"
 import { FinanceSection } from "@/components/dashboard/finance"
 import { OccupancySection } from "@/components/dashboard/occupancy"
@@ -14,13 +15,15 @@ import { addDays, subWeeks } from "date-fns"
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("overview")
-  const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
-    from: subWeeks(new Date(), 4),
-    to: new Date()
+  const [filters, setFilters] = useState({
+    dateRange: {
+      from: subWeeks(new Date(), 4),
+      to: new Date()
+    },
+    asset: "all",
+    tenantCategory: [] as string[],
+    tenant: ""
   })
-  const [selectedAsset, setSelectedAsset] = useState("all")
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [selectedTenant, setSelectedTenant] = useState("all")
 
   const renderContent = () => {
     switch (activeTab) {
@@ -47,19 +50,46 @@ export default function Dashboard() {
     }
   }
 
+  const handleExport = () => {
+    // Export functionality
+    console.log("Exporting dashboard data...");
+  };
+
+  const handleSettings = () => {
+    // Settings functionality
+    console.log("Opening settings...");
+  };
+
+  const handleHelp = () => {
+    // Help functionality
+    console.log("Opening help...");
+  };
+
   return (
-    <div className="flex h-screen bg-background">
-      <Sidebar 
-        activeTab={activeTab} 
-        onTabChange={setActiveTab}
+    <div className="min-h-screen bg-background">
+      <Header 
+        onExport={handleExport}
+        onSettings={handleSettings}
+        onHelp={handleHelp}
       />
       
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header */}
-        <header className="border-b border-border bg-card/50 backdrop-blur-sm">
-          <div className="flex items-center justify-between px-6 py-4">
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">
+      <div className="flex pt-16">
+        <Sidebar 
+          activeTab={activeTab} 
+          onTabChange={setActiveTab}
+        />
+        
+        <main className="flex-1 min-h-[calc(100vh-4rem)]">
+          {/* Filters */}
+          <DashboardFilters
+            filters={filters}
+            onFiltersChange={setFilters}
+          />
+
+          {/* Content */}
+          <div className="p-6 lg:p-10 space-y-8">
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold text-foreground mb-2">
                 {activeTab === "overview" ? "Vue d'ensemble" : 
                  activeTab === "finance" ? "Finance" :
                  activeTab === "occupancy" ? "Occupancy & Leasing" :
@@ -70,39 +100,12 @@ export default function Dashboard() {
                  activeTab === "cleaning" ? "Cleaning Quality" :
                  activeTab === "admin" ? "Admin - Données" : "Dashboard"}
               </h1>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground">
                 {activeTab === "overview" ? "KPIs globaux et indicateurs clés de performance" :
                  "Données détaillées et analyses spécialisées"}
               </p>
             </div>
-            <div className="text-xs text-muted-foreground">
-              Dernière mise à jour: {new Date().toLocaleDateString('fr-FR', { 
-                day: 'numeric', 
-                month: 'long', 
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-              })}
-            </div>
-          </div>
-        </header>
-
-        {/* Main Content */}
-        <main className="flex-1 overflow-auto">
-          <div className="p-6 space-y-6">
-            {/* Filters */}
-            <DashboardFilters
-              dateRange={dateRange}
-              onDateRangeChange={setDateRange}
-              selectedAsset={selectedAsset}
-              onAssetChange={setSelectedAsset}
-              selectedCategory={selectedCategory}
-              onCategoryChange={setSelectedCategory}
-              selectedTenant={selectedTenant}
-              onTenantChange={setSelectedTenant}
-            />
-
-            {/* Content */}
+            
             {renderContent()}
           </div>
         </main>
