@@ -6,103 +6,54 @@
 
 @layer base {
   :root {
-    /* Carbonleo/Royalmount Brand System */
-    --background: 0 0% 98%;
-    --foreground: 215 25% 10%;
-
-    /* Cards & Surfaces */
+    --background: 0 0% 100%;
+    --foreground: 209 24% 8%;
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 10%;
-    --card-border: 220 13% 91%;
-
-    /* Popover & Overlays */
+    --card-foreground: 209 24% 8%;
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 10%;
-
-    /* Primary - Carbonleo Teal #004642 */
-    --primary: 178 100% 14%;
+    --popover-foreground: 209 24% 8%;
+    --primary: 195 100% 14%;
     --primary-foreground: 0 0% 100%;
-    --primary-muted: 178 40% 85%;
-
-    /* Secondary - Light Gray */
-    --secondary: 215 16% 95%;
-    --secondary-foreground: 215 13% 30%;
-
-    /* Muted Elements */
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 13% 30%;
-
-    /* Accent - Royalmount Green #00AC3C */
-    --accent: 141 100% 34%;
-    --accent-foreground: 141 50% 6%;
-
-    /* Status Colors - Aligned with Brand */
-    --success: 141 100% 34%;
-    --success-foreground: 0 0% 100%;
-    --success-muted: 141 35% 90%;
-    
-    --warning: 45 93% 47%;
-    --warning-foreground: 0 0% 100%;
-    --warning-muted: 45 35% 90%;
-    
-    --destructive: 0 85% 60%;
+    --primary-muted: 195 80% 20%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 215 25% 27%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 140 100% 34%;
+    --accent-foreground: 140 90% 8%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --destructive-muted: 0 35% 90%;
-
-    --info: 217 91% 60%;
+    --destructive-muted: 0 84% 95%;
+    --success: 140 100% 34%;
+    --success-foreground: 140 90% 8%;
+    --success-muted: 140 100% 95%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 38 90% 8%;
+    --warning-muted: 38 92% 95%;
+    --info: 221 83% 53%;
     --info-foreground: 0 0% 100%;
-    --info-muted: 217 35% 90%;
-
-    /* Interactive Elements */
-    --border: 220 15% 88%;
-    --input: 220 15% 96%;
-    --ring: 212 85% 45%;
-
-    /* Sidebar */
-    --sidebar-background: 220 20% 14%;
-    --sidebar-foreground: 220 15% 85%;
-    --sidebar-primary: 212 85% 45%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 15% 20%;
-    --sidebar-accent-foreground: 220 15% 85%;
-    --sidebar-border: 220 15% 25%;
-    --sidebar-ring: 212 85% 55%;
-
-    /* Dashboard Specific */
-    --kpi-positive: 142 76% 36%;
-    --kpi-negative: 0 72% 51%;
-    --kpi-neutral: 220 10% 50%;
-    --chart-primary: 212 85% 45%;
-    --chart-secondary: 142 76% 36%;
-    --chart-tertiary: 45 93% 47%;
-
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(212 85% 45%), hsl(212 85% 55%));
-    --gradient-success: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 76% 46%));
-    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(220 15% 98%));
-
-    /* Shadows */
-    --shadow-card: 0 4px 6px -1px hsl(220 15% 15% / 0.1), 0 2px 4px -1px hsl(220 15% 15% / 0.06);
-    --shadow-lg: 0 10px 15px -3px hsl(220 15% 15% / 0.1), 0 4px 6px -2px hsl(220 15% 15% / 0.05);
-
-    /* Radius */
-    --radius: 0.75rem;
-
+    --info-muted: 221 83% 95%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 140 100% 34%;
+    --chart-primary: 195 100% 14%;
+    --chart-secondary: 140 100% 34%;
+    --chart-tertiary: 195 50% 35%;
+    --chart-target: 140 100% 34%;
+    --chart-grid: 220 13% 91%;
+    --radius: 1rem;
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 140 100% 34%;
+    --kpi-positive: 140 100% 34%;
+    --kpi-negative: 0 84% 60%;
+    --kpi-neutral: 215 16% 47%;
+    --card-border: 220 13% 91%;
   }
 
   .dark {

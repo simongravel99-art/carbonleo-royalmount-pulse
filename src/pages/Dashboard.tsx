@@ -73,13 +73,13 @@ export default function Dashboard() {
         onHelp={handleHelp}
       />
       
-      <div className="flex pt-16">
+      <div className="flex pt-14">
         <Sidebar 
           activeTab={activeTab} 
           onTabChange={setActiveTab}
         />
         
-        <main className="flex-1 min-h-[calc(100vh-4rem)]">
+        <main className="flex-1 min-h-[calc(100vh-3.5rem)]">
           {/* Filters */}
           <DashboardFilters
             filters={filters}
@@ -90,19 +90,19 @@ export default function Dashboard() {
           <div className="p-6 lg:p-10 space-y-8">
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-foreground mb-2">
-                {activeTab === "overview" ? "Vue d'ensemble" : 
+                {activeTab === "overview" ? "Overview" : 
                  activeTab === "finance" ? "Finance" :
                  activeTab === "occupancy" ? "Occupancy & Leasing" :
                  activeTab === "sales" ? "Sales" :
                  activeTab === "traffic" ? "Traffic & Parking" :
-                 activeTab === "ops" ? "Ops Excellence" :
+                 activeTab === "ops" ? "Ops & Guest Experience" :
                  activeTab === "guest" ? "Guest Experience" :
                  activeTab === "cleaning" ? "Cleaning Quality" :
-                 activeTab === "admin" ? "Admin - Données" : "Dashboard"}
+                 activeTab === "admin" ? "Admin – Data" : "Dashboard"}
               </h1>
               <p className="text-muted-foreground">
-                {activeTab === "overview" ? "KPIs globaux et indicateurs clés de performance" :
-                 "Données détaillées et analyses spécialisées"}
+                {activeTab === "overview" ? "Key performance indicators and global metrics" :
+                 "Detailed data and specialized analytics"}
               </p>
             </div>
             

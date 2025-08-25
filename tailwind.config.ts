@@ -73,7 +73,9 @@ export default {
 				chart: {
 					primary: 'hsl(var(--chart-primary))',
 					secondary: 'hsl(var(--chart-secondary))',
-					tertiary: 'hsl(var(--chart-tertiary))'
+					tertiary: 'hsl(var(--chart-tertiary))',
+					target: 'hsl(var(--chart-target))',
+					grid: 'hsl(var(--chart-grid))'
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',

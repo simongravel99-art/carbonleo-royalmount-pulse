@@ -13,7 +13,7 @@ export default function StyleGuide() {
         onHelp={() => {}}
       />
       
-      <main className="pt-16 px-6 lg:px-10 py-8">
+      <main className="pt-14 px-6 lg:px-10 py-8">
         <div className="max-w-6xl mx-auto space-y-12">
           {/* Title */}
           <div className="text-center">
@@ -21,40 +21,40 @@ export default function StyleGuide() {
               Carbonleo Design System
             </h1>
             <p className="text-lg text-muted-foreground">
-              Style guide et composants pour le dashboard Royalmount
+              Style guide and components for the Royalmount dashboard
             </p>
           </div>
 
           {/* Colors */}
           <section>
-            <h2 className="text-2xl font-semibold mb-6">Palette de couleurs</h2>
+            <h2 className="text-2xl font-semibold mb-6">Color Palette</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="space-y-2">
                 <div className="h-16 bg-primary rounded-xl border"></div>
                 <div className="text-sm">
-                  <div className="font-medium">Primaire (Sarcelle)</div>
+                  <div className="font-medium">Primary (Teal)</div>
                   <div className="text-muted-foreground">#004642</div>
                 </div>
               </div>
               <div className="space-y-2">
                 <div className="h-16 bg-accent rounded-xl border"></div>
                 <div className="text-sm">
-                  <div className="font-medium">Accent (Vert)</div>
+                  <div className="font-medium">Accent (Green)</div>
                   <div className="text-muted-foreground">#00AC3C</div>
                 </div>
               </div>
               <div className="space-y-2">
                 <div className="h-16 bg-success rounded-xl border"></div>
                 <div className="text-sm">
-                  <div className="font-medium">Succès</div>
-                  <div className="text-muted-foreground">Performances positives</div>
+                  <div className="font-medium">Success</div>
+                  <div className="text-muted-foreground">Positive performance</div>
                 </div>
               </div>
               <div className="space-y-2">
                 <div className="h-16 bg-destructive rounded-xl border"></div>
                 <div className="text-sm">
-                  <div className="font-medium">Alerte</div>
-                  <div className="text-muted-foreground">Attention requise</div>
+                  <div className="font-medium">Alert</div>
+                  <div className="text-muted-foreground">Attention required</div>
                 </div>
               </div>
             </div>
