@@ -72,7 +72,7 @@ export function TrafficBubbles({ metrics, previousMetrics }: TrafficBubblesProps
   }
   
   return (
-    <div className="flex justify-center space-y-4">
+    <div className="space-y-4">
       <h3 className="text-lg font-semibold text-foreground">Weekly Traffic Metrics</h3>
       
       <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
