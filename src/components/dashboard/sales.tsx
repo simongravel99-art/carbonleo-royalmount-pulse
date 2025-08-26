@@ -1,7 +1,17 @@
 import { KPICard } from "@/components/ui/kpi-card"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { SalesTable } from "@/components/ui/sales-table"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, LineChart, Line } from "recharts"
+import { 
+  TenantSalesData, 
+  getBottomPerformersSales, 
+  getLuxuryTenants, 
+  getBottomPerformersGROC, 
+  getTopPerformersGROC,
+  defaultSalesKPIConfig 
+} from "@/lib/sales-utils"
+import { formatNumberShort, formatCurrency } from "@/lib/format"
 
 const salesKPIs = [
   { title: "Sales/sqft Monthly", value: "1,247", trend: -3.2, prefix: "$", variant: "warning" },
@@ -30,14 +40,26 @@ const salesTrendData = [
   { month: "Jun", total: 18200000, perSqft: 1247 }
 ]
 
-const topTenants = [
-  { tenant: "Zara", category: "Fashion", gla: 8500, sales: 13430000, salesPerSqft: 1580, yoyIndex: 108.2 },
-  { tenant: "Apple Store", category: "Electronics", gla: 2800, sales: 2744000, salesPerSqft: 980, yoyIndex: 89.1 },
-  { tenant: "Sephora", category: "Beauty", gla: 3200, sales: 5824000, salesPerSqft: 1820, yoyIndex: 115.7 },
-  { tenant: "Tim Hortons", category: "F&B", gla: 1500, sales: 3360000, salesPerSqft: 2240, yoyIndex: 112.5 },
-  { tenant: "H&M", category: "Fashion", gla: 6800, sales: 10744000, salesPerSqft: 1580, yoyIndex: 108.2 },
-  { tenant: "Cineplex", category: "Entertainment", gla: 12000, sales: 13800000, salesPerSqft: 1150, yoyIndex: 101.3 }
+// Extended tenant data with GROC information
+const tenantSalesData: TenantSalesData[] = [
+  { tenant: "Zara", category: "Fashion", gla: 8500, sales: 13430000, salesPerSqft: 1580, yoyIndex: 108.2, grocPct: 12.5, rentYtd: 1679000, salesAmountYtd: 13430000 },
+  { tenant: "Apple Store", category: "Electronics", gla: 2800, sales: 2744000, salesPerSqft: 980, yoyIndex: 89.1, grocPct: 18.7, rentYtd: 513000, salesAmountYtd: 2744000 },
+  { tenant: "Sephora", category: "Beauty", gla: 3200, sales: 5824000, salesPerSqft: 1820, yoyIndex: 115.7, grocPct: 8.2, rentYtd: 477000, salesAmountYtd: 5824000 },
+  { tenant: "Tim Hortons", category: "F&B", gla: 1500, sales: 3360000, salesPerSqft: 2240, yoyIndex: 112.5, grocPct: 6.8, rentYtd: 228000, salesAmountYtd: 3360000 },
+  { tenant: "H&M", category: "Fashion", gla: 6800, sales: 10744000, salesPerSqft: 1580, yoyIndex: 108.2, grocPct: 11.8, rentYtd: 1268000, salesAmountYtd: 10744000 },
+  { tenant: "Cineplex", category: "Entertainment", gla: 12000, sales: 13800000, salesPerSqft: 1150, yoyIndex: 101.3, grocPct: 14.2, rentYtd: 1960000, salesAmountYtd: 13800000 },
+  { tenant: "Louis Vuitton", category: "Luxury", gla: 2400, sales: 8960000, salesPerSqft: 3733, yoyIndex: 125.8, grocPct: 5.2, rentYtd: 466000, salesAmountYtd: 8960000 },
+  { tenant: "Gucci", category: "Luxury", gla: 1800, sales: 6120000, salesPerSqft: 3400, yoyIndex: 118.3, grocPct: 6.1, rentYtd: 373000, salesAmountYtd: 6120000 },
+  { tenant: "Forever 21", category: "Fashion", gla: 5500, sales: 4840000, salesPerSqft: 880, yoyIndex: 78.5, grocPct: 16.8, rentYtd: 813000, salesAmountYtd: 4840000 },
+  { tenant: "GameStop", category: "Electronics", gla: 800, sales: 640000, salesPerSqft: 800, yoyIndex: 65.2, grocPct: 22.1, rentYtd: 141000, salesAmountYtd: 640000 },
+  { tenant: "Starbucks", category: "F&B", gla: 1200, sales: 2880000, salesPerSqft: 2400, yoyIndex: 105.7, grocPct: 7.5, rentYtd: 216000, salesAmountYtd: 2880000 },
+  { tenant: "Hermès", category: "Luxury", gla: 1500, sales: 7500000, salesPerSqft: 5000, yoyIndex: 132.4, grocPct: 4.8, rentYtd: 360000, salesAmountYtd: 7500000 },
+  { tenant: "RadioShack", category: "Electronics", gla: 600, sales: 180000, salesPerSqft: 300, yoyIndex: 45.8, grocPct: 28.3, rentYtd: 51000, salesAmountYtd: 180000 },
+  { tenant: "Tiffany & Co.", category: "Luxury", gla: 1200, sales: 4800000, salesPerSqft: 4000, yoyIndex: 110.2, grocPct: 6.2, rentYtd: 298000, salesAmountYtd: 4800000 },
+  { tenant: "Toys'R'Us Express", category: "Toys", gla: 400, sales: 120000, salesPerSqft: 300, yoyIndex: 52.1, grocPct: 26.7, rentYtd: 32000, salesAmountYtd: 120000 }
 ]
+
+const topTenants = tenantSalesData.slice(0, 6)
 
 export function SalesSection() {
   return (
@@ -115,38 +137,38 @@ export function SalesSection() {
         </Card>
 
         {/* Top Tenants Performance */}
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 rounded-2xl">
           <CardHeader>
             <CardTitle>Top Tenants Performance</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
-              <table className="w-full border-collapse border border-border">
-                <thead>
-                  <tr className="bg-muted">
-                    <th className="border border-border p-3 text-left">Tenant</th>
-                    <th className="border border-border p-3 text-left">Category</th>
-                    <th className="border border-border p-3 text-right">GLA (sqft)</th>
-                    <th className="border border-border p-3 text-right">Total Sales</th>
-                    <th className="border border-border p-3 text-right">Sales/sqft</th>
-                    <th className="border border-border p-3 text-right">YoY Index</th>
+              <table className="w-full border-collapse">
+                <thead className="sticky top-0 bg-background">
+                  <tr className="border-b border-border">
+                    <th className="p-3 text-left font-medium text-muted-foreground">Tenant</th>
+                    <th className="p-3 text-left font-medium text-muted-foreground">Category</th>
+                    <th className="p-3 text-right font-medium text-muted-foreground">GLA (sqft)</th>
+                    <th className="p-3 text-right font-medium text-muted-foreground">Total Sales</th>
+                    <th className="p-3 text-right font-medium text-muted-foreground">Sales/sqft</th>
+                    <th className="p-3 text-right font-medium text-muted-foreground">YoY Index</th>
                   </tr>
                 </thead>
                 <tbody>
                   {topTenants.map((tenant, index) => (
-                    <tr key={index} className="hover:bg-muted/50">
-                      <td className="border border-border p-3 font-medium">{tenant.tenant}</td>
-                      <td className="border border-border p-3">{tenant.category}</td>
-                      <td className="border border-border p-3 text-right font-mono">
-                        {tenant.gla.toLocaleString()}
+                    <tr key={index} className={`border-b border-border hover:bg-muted/50 ${index % 2 === 1 ? 'bg-muted/25' : ''}`}>
+                      <td className="p-3 font-medium">{tenant.tenant}</td>
+                      <td className="p-3">{tenant.category}</td>
+                      <td className="p-3 text-right font-mono">
+                        {formatNumberShort(tenant.gla)}
                       </td>
-                      <td className="border border-border p-3 text-right font-mono">
-                        ${(tenant.sales / 1000000).toFixed(1)}M
+                      <td className="p-3 text-right font-mono">
+                        {formatCurrency(tenant.sales)}
                       </td>
-                      <td className="border border-border p-3 text-right font-mono">
-                        ${tenant.salesPerSqft}
+                      <td className="p-3 text-right font-mono">
+                        {formatCurrency(tenant.salesPerSqft, false)}
                       </td>
-                      <td className="border border-border p-3 text-right">
+                      <td className="p-3 text-right">
                         <span className={`px-2 py-1 rounded text-sm ${
                           tenant.yoyIndex >= 105 ? 'bg-success/20 text-success' : 
                           tenant.yoyIndex >= 95 ? 'bg-warning/20 text-warning' : 
@@ -162,6 +184,43 @@ export function SalesSection() {
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      {/* New Sales Analysis Tables */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Bottom Performers (Sales) */}
+        <SalesTable
+          title="Bottom Performers (Sales)"
+          data={getBottomPerformersSales(tenantSalesData, defaultSalesKPIConfig)}
+          showFlags={true}
+          emptyMessage="No bottom performers found"
+        />
+
+        {/* Luxury Tenants */}
+        <SalesTable
+          title="Luxury Tenants"
+          data={getLuxuryTenants(tenantSalesData)}
+          showSearch={true}
+          emptyMessage="No luxury tenants found"
+        />
+
+        {/* Bottom Performers (GROC) */}
+        <SalesTable
+          title="Bottom Performers (GROC)"
+          data={getBottomPerformersGROC(tenantSalesData, defaultSalesKPIConfig)}
+          showGROC={true}
+          emptyMessage="No GROC data available"
+          bannerMessage={tenantSalesData.some(t => t.grocPct || t.rentYtd) ? undefined : "Add groc_pct or rent fields to enable GROC ranking."}
+        />
+
+        {/* Top Performers (GROC) */}
+        <SalesTable
+          title="Top Performers (GROC)"
+          data={getTopPerformersGROC(tenantSalesData, defaultSalesKPIConfig)}
+          showGROC={true}
+          emptyMessage="No qualifying top performers found"
+          bannerMessage={tenantSalesData.some(t => t.grocPct || t.rentYtd) ? undefined : "Add groc_pct or rent fields to enable GROC ranking."}
+        />
       </div>
     </div>
   )

@@ -1,7 +1,10 @@
 import { KPICard } from "@/components/ui/kpi-card"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { TrafficBubbles } from "@/components/ui/traffic-bubbles"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from "recharts"
+import { calculateWeeklyMetrics } from "@/lib/traffic-utils"
+import { subWeeks } from "date-fns"
 
 const trafficKPIs = [
   { title: "Monthly Visitors", value: "847K", trend: 15.8, variant: "success" },
@@ -53,7 +56,31 @@ const hourlyTrafficData = [
   { hour: "21h", visitors: 45000 }
 ]
 
+// Mock traffic data for weekly calculations
+const mockTrafficData = [
+  { date: "2024-01-15", totalVisitors: 45000, marketShareTrafficPct: 68.2 }, // Monday
+  { date: "2024-01-16", totalVisitors: 52000, marketShareTrafficPct: 69.1 }, // Tuesday
+  { date: "2024-01-17", totalVisitors: 48000, marketShareTrafficPct: 67.8 }, // Wednesday
+  { date: "2024-01-18", totalVisitors: 55000, marketShareTrafficPct: 70.2 }, // Thursday
+  { date: "2024-01-19", totalVisitors: 72000, marketShareTrafficPct: 72.5 }, // Friday
+  { date: "2024-01-20", totalVisitors: 89000, marketShareTrafficPct: 75.8 }, // Saturday
+  { date: "2024-01-21", totalVisitors: 67000, marketShareTrafficPct: 71.3 }, // Sunday
+]
+
 export function TrafficSection() {
+  // Calculate current week metrics
+  const currentDateRange = { 
+    from: new Date("2024-01-15"), 
+    to: new Date("2024-01-21") 
+  }
+  const previousDateRange = {
+    from: subWeeks(currentDateRange.from, 1),
+    to: subWeeks(currentDateRange.to, 1)
+  }
+  
+  const currentWeekMetrics = calculateWeeklyMetrics(mockTrafficData, currentDateRange)
+  const previousWeekMetrics = calculateWeeklyMetrics(mockTrafficData, previousDateRange)
+
   return (
     <div className="space-y-6">
       {/* KPI Grid */}
@@ -70,6 +97,12 @@ export function TrafficSection() {
           />
         ))}
       </div>
+
+      {/* Traffic Bubbles */}
+      <TrafficBubbles 
+        metrics={currentWeekMetrics}
+        previousMetrics={previousWeekMetrics}
+      />
 
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
