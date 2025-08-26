@@ -51,13 +51,8 @@ const tenantSalesData: TenantSalesData[] = [
   { tenant: "Louis Vuitton", category: "Luxury", gla: 2400, sales: 8960000, salesPerSqft: 3733, yoyIndex: 125.8, grocPct: 5.2, rentYtd: 466000, salesAmountYtd: 8960000 },
   { tenant: "Gucci", category: "Luxury", gla: 1800, sales: 6120000, salesPerSqft: 3400, yoyIndex: 118.3, grocPct: 6.1, rentYtd: 373000, salesAmountYtd: 6120000 },
   { tenant: "Forever 21", category: "Fashion", gla: 5500, sales: 4840000, salesPerSqft: 880, yoyIndex: 78.5, grocPct: 16.8, rentYtd: 813000, salesAmountYtd: 4840000 },
-  { tenant: "GameStop", category: "Electronics", gla: 800, sales: 640000, salesPerSqft: 800, yoyIndex: 65.2, grocPct: 22.1, rentYtd: 141000, salesAmountYtd: 640000 },
-  { tenant: "Starbucks", category: "F&B", gla: 1200, sales: 2880000, salesPerSqft: 2400, yoyIndex: 105.7, grocPct: 7.5, rentYtd: 216000, salesAmountYtd: 2880000 },
-  { tenant: "Hermès", category: "Luxury", gla: 1500, sales: 7500000, salesPerSqft: 5000, yoyIndex: 132.4, grocPct: 4.8, rentYtd: 360000, salesAmountYtd: 7500000 },
-  { tenant: "RadioShack", category: "Electronics", gla: 600, sales: 180000, salesPerSqft: 300, yoyIndex: 45.8, grocPct: 28.3, rentYtd: 51000, salesAmountYtd: 180000 },
-  { tenant: "Tiffany & Co.", category: "Luxury", gla: 1200, sales: 4800000, salesPerSqft: 4000, yoyIndex: 110.2, grocPct: 6.2, rentYtd: 298000, salesAmountYtd: 4800000 },
-  { tenant: "Toys'R'Us Express", category: "Toys", gla: 400, sales: 120000, salesPerSqft: 300, yoyIndex: 52.1, grocPct: 26.7, rentYtd: 32000, salesAmountYtd: 120000 }
-]
+  { tenant: "GameStop", category: "Electronics", gla: 800, sales: 640000, salesPerSqft: 800, yoyIndex: 65.2, grocPct: 22.1, rentYtd: 141000, salesAmountYtd: 640000 }
+  
 
 const topTenants = tenantSalesData.slice(0, 6)
 
