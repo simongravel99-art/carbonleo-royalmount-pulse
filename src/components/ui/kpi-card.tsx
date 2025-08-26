@@ -84,7 +84,7 @@ export function KPICard({
             </div>
           )}
           <CardTitle className="text-sm font-medium text-muted-foreground">
-            Forecasted Sales/SF
+            {title}
           </CardTitle>
         </div>
         {trend !== undefined && (

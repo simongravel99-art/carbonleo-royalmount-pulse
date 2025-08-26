@@ -140,11 +140,7 @@ export function SalesTable({
                         </TableCell>}
                       {showFlags && <TableCell className={cn(density === "compact" && "py-2")}>
                           <div className="flex flex-wrap gap-1">
-                            {(tenant.flags || []).map((flag, flagIndex) => (
-                              <Badge key={flagIndex} variant="destructive" className="text-xs">
-                                {flag}
-                              </Badge>
-                            ))}
+                            {(tenant.flags || []).map((flag, flagIndex) => {})}
                           </div>
                         </TableCell>}
                     </TableRow>;
