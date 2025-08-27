@@ -4,12 +4,16 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, BarChart, Bar } from "recharts"
 
 const financeKPIs = [
-  { title: "NOI Monthly", value: "2.4M", trend: 8.2, prefix: "$", variant: "success" },
-  { title: "NOI YTD", value: "24.8M", trend: 12.4, prefix: "$", variant: "success" },
-  { title: "NOI Forecast", value: "28.5M", trend: 5.8, prefix: "$", variant: "success" },
+  { title: "Base Rent", value: "450K", trend: -2.1, prefix: "$", variant: "success" },
+  { title: "% Rent", value: "680K", trend: 3.4, prefix: "$", variant: "warning" },
+  { title: "Other Income", value: "125K", trend: -8.5, prefix: "$", variant: "success" }
   { title: "Rec. Expenses", value: "450K", trend: -2.1, prefix: "$", variant: "success" },
   { title: "Non-Rec Expenses", value: "680K", trend: 3.4, prefix: "$", variant: "warning" },
   { title: "Current Receivables", value: "125K", trend: -8.5, prefix: "$", variant: "success" }
+  { title: "NOI Monthly", value: "2.4M", trend: 8.2, prefix: "$", variant: "success" },
+  { title: "NOI YTD", value: "24.8M", trend: 12.4, prefix: "$", variant: "success" },
+  { title: "NOI Budget 2025", value: "28.5M", trend: 5.8, prefix: "$", variant: "success" },
+ 
 ]
 
 const noiData = [
