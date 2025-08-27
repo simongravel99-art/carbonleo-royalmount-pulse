@@ -4,13 +4,13 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, LineChart, Line } from "recharts"
 
 const occupancyKPIs = [
-  { title: "RM Open %", value: "94.2", trend: 2.1, suffix: "%", variant: "success" },
+  { title: "RM Occupancy %", value: "94.2", trend: 2.1, suffix: "%", variant: "success" },
   { title: "RM Leased %", value: "97.8", trend: 1.5, suffix: "%", variant: "success" },
   { title: "RM Vacant %", value: "96.1", trend: 1.8, suffix: "%", variant: "success" },
-  { title: "Mall Open %", value: "98.5", trend: 0.9, suffix: "%", variant: "success" },
+  { title: "Mall Occupancy %", value: "98.5", trend: 0.9, suffix: "%", variant: "success" },
   { title: "Mall Leased %", value: "89.7", trend: 3.2, suffix: "%", variant: "success" },
   { title: "Mall Vacant %", value: "3.6", trend: -0.6, suffix: "%", variant: "success" },  
-  { title: "HSE Open %", value: "98.5", trend: 0.9, suffix: "%", variant: "success" },
+  { title: "HSE Occupancy %", value: "98.5", trend: 0.9, suffix: "%", variant: "success" },
   { title: "HSE Leased %", value: "89.7", trend: 3.2, suffix: "%", variant: "success" },
   { title: "HSE Vacant %", value: "3.6", trend: -0.6, suffix: "%", variant: "success" }
 ]
