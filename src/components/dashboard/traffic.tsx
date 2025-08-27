@@ -10,9 +10,9 @@ const trafficKPIs = [
   { title: "Monthly Mall Visitors", value: "847K", trend: 15.8, variant: "success" },
   { title: "Monthly Market Share", value: "68.2", trend: 3.4, suffix: "%", variant: "success" },
   { title: "Passerelle Traffic (%)", value: "24.5", trend: 8.7, suffix: "%", variant: "success" },
-  { title: "Monthly Parking Visitors", value: "82", trend: -1.8, suffix: "%", variant: "default" },
+  { title: "Monthly Parking Visitors", value: "82", trend: -1.8, suffix: "K", variant: "default" },
   { title: "Monthly Parking Revenue / Employee Revenue", value: "186K/50K", trend: 12.3, prefix: "$", variant: "success" },
-  { title: "Peak Occupancy %", value: "45%", trend: 5.2, prefix: "%", variant: "success" },
+  { title: "Peak Occupancy %", value: "45%", trend: 5.2, prefix: "", variant: "success" },
   { title: "Weekly Parking Visitors", value: "82", trend: -1.8, suffix: "K", variant: "default" },
   { title: "Parking Revenue / Employee Revenue", value: "186K/12.5K", trend: 12.3, prefix: "$", variant: "success" },
   { title: "Peak Occupancy %", value: "80%", trend: 5.2, prefix: "", variant: "success" }
