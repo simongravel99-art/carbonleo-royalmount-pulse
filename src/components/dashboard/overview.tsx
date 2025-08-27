@@ -1,5 +1,7 @@
 import { KPICard } from "@/components/ui/kpi-card"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts"
 
 // Mock data for demonstration
 const kpiData = [
@@ -37,11 +39,13 @@ const trafficData = [
   { month: "Jun", visitors: 865000, target: 850000 }
 ]
 
-const salesData = [
-  { category: "Fashion", salesPerSqft: 1580, target: 1500 },
-  { category: "F&B", salesPerSqft: 2240, target: 2000 },
-  { category: "Services", salesPerSqft: 890, target: 1000 },
-  { category: "Entertainment", salesPerSqft: 1150, target: 1200 }
+const marketShareData = [
+  { month: "Jan", marketShare: 24.5 },
+  { month: "Fév", marketShare: 25.1 },
+  { month: "Mar", marketShare: 24.8 },
+  { month: "Avr", marketShare: 26.2 },
+  { month: "Mai", marketShare: 25.7 },
+  { month: "Jun", marketShare: 26.8 }
 ]
 
 export function DashboardOverview() {
@@ -62,21 +66,58 @@ export function DashboardOverview() {
         ))}
       </div>
 
-      {/* Charts Section - Temporarily disabled for debugging */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-foreground">
-              Graphiques - En cours de chargement
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-center h-64">
-              <p className="text-muted-foreground">Graphiques temporairement désactivés</p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Market Share Chart */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold text-foreground">
+            RM Market Share
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer
+            config={{
+              marketShare: {
+                label: "Market Share",
+                color: "hsl(var(--primary))",
+              },
+            }}
+            className="h-[300px]"
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={marketShareData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis 
+                  dataKey="month" 
+                  tick={{ fontSize: 12 }}
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <YAxis 
+                  tick={{ fontSize: 12 }}
+                  tickLine={false}
+                  axisLine={false}
+                  domain={['dataMin - 1', 'dataMax + 1']}
+                  tickFormatter={(value) => `${value}%`}
+                />
+                <ChartTooltip 
+                  content={<ChartTooltipContent 
+                    formatter={(value) => [`${value}%`, "Market Share"]}
+                    labelFormatter={(label) => `${label}`}
+                  />} 
+                />
+                <Line
+                  type="monotone"
+                  dataKey="marketShare"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth={2}
+                  dot={{ fill: "hsl(var(--primary))", strokeWidth: 2, r: 4 }}
+                  activeDot={{ r: 6, stroke: "hsl(var(--primary))" }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+        </CardContent>
+      </Card>
     </div>
   )
 }
