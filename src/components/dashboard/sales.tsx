@@ -23,21 +23,21 @@ const salesKPIs = [
 ]
 
 const salesByCategoryData = [
-  { category: "Fashion", salesPerSqft: 1580, target: 1500, yoyIndex: 108.2 },
-  { category: "F&B", salesPerSqft: 2240, target: 2000, yoyIndex: 112.5 },
-  { category: "Services", salesPerSqft: 890, target: 1000, yoyIndex: 95.8 },
-  { category: "Entertainment", salesPerSqft: 1150, target: 1200, yoyIndex: 101.3 },
-  { category: "Beauty", salesPerSqft: 1820, target: 1600, yoyIndex: 115.7 },
-  { category: "Electronics", salesPerSqft: 980, target: 1100, yoyIndex: 89.1 }
+  { category: "Luxury", salesPerSqft: 1580, target: 1500, yoyIndex: 108.2 },
+  { category: "Aspirational Luxury", salesPerSqft: 2240, target: 2000, yoyIndex: 112.5 },
+  { category: "Home & Decor", salesPerSqft: 890, target: 1000, yoyIndex: 95.8 },
+  { category: "Large Format", salesPerSqft: 1150, target: 1200, yoyIndex: 101.3 },
+  { category: "Health & Beauty", salesPerSqft: 1820, target: 1600, yoyIndex: 115.7 },
+  { category: "Specialty Food", salesPerSqft: 980, target: 1100, yoyIndex: 89.1 }
 ]
 
 const salesTrendData = [
-  { month: "Jan", total: 16800000, perSqft: 1180 },
-  { month: "Fév", total: 17200000, perSqft: 1210 },
-  { month: "Mar", total: 17800000, perSqft: 1250 },
-  { month: "Avr", total: 18200000, perSqft: 1280 },
-  { month: "Mai", total: 17900000, perSqft: 1260 },
-  { month: "Jun", total: 18200000, perSqft: 1247 }
+   { month: "Jan", cruSalesPerSqft: 1150, anchorSalesPerSqft: 980 },
+    { month: "Fév", cruSalesPerSqft: 1210, anchorSalesPerSqft: 1020 },
+    { month: "Mar", cruSalesPerSqft: 1180, anchorSalesPerSqft: 1050 },
+    { month: "Avr", cruSalesPerSqft: 1280, anchorSalesPerSqft: 1100 },
+    { month: "Mai", cruSalesPerSqft: 1260, anchorSalesPerSqft: 1080 },
+    { month: "Jun", cruSalesPerSqft: 1247, anchorSalesPerSqft: 1120 }
 ]
 
 // Extended tenant data with GROC information
