@@ -85,7 +85,7 @@ export function SalesSection() {
           <CardContent>
             <ChartContainer
               config={{
-                salesPerSqft: { label: "Sales/sqft", color: "hsl(var(--primary))" },
+                salesPerSqft: { label: "Sales/SF", color: "hsl(var(--primary))" },
                 target: { label: "Target", color: "hsl(var(--muted-foreground))" }
               }}
               className="h-[300px]"
