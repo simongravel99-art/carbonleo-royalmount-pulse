@@ -9,9 +9,9 @@ const kpiData = [
   { title: "NOI YTD", value: "24.8M", trend: 12.4, prefix: "$", variant: "success" },
   { title: "Occupancy (Open)", value: "94.2", trend: 2.1, suffix: "%", variant: "success" },
   { title: "Occupancy (Lease)", value: "97.8", trend: 1.5, suffix: "%", variant: "success" },
-  { title: "CRU Forecasted Sales/sqft", value: "1,247", trend: -3.2, prefix: "$", variant: "warning" },
+  { title: "CRU Forecasted Sales/SF", value: "1,247", trend: -3.2, prefix: "$",suffix: "/SF", variant: "warning" },
   { title: "Mall Traffic", value: "847K", trend: 15.8, variant: "success" },
-  { title: "Market Share", value: "72", trend: 5.2, suffix: "%" ,variant: "success" },
+  { title: "Market Share", value: "72", trend: 5.2, variant: "success" },
   { title: "CQS Score", value: "88.5", trend: 3.7, suffix: "%", variant: "success" },
   
   { title: "Parking Traffic", value: "-8.4", trend: 12.1, suffix: "%", variant: "success" },
