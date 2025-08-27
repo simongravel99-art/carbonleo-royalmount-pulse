@@ -18,7 +18,7 @@ const salesKPIs = [
   { title: "Monthly CRU Sales", value: "18.2M", trend: 5.8, prefix: "$", variant: "success" },
   { title: "YoY Growth", value: "104.2", trend: 4.2, suffix: "%", variant: "success" },
   { title: "Avg Anchors Forecasted Sales/SF Ann.", value: "127", trend: 2.1, prefix: "$", suffix: "/SF" , variant: "success" },
-  { title: "Monthly Anchors Sales", value: "18.5", trend: -1.2, suffix: "%", variant: "warning" },
+  { title: "Monthly Anchors Sales", value: "18.5", trend: -1.2, suffix: "M", prefix: "$", variant: "warning" },
   { title: "YoY Growth", value: "2.3", trend: 1.8, variant: "success" }
 ]
 
