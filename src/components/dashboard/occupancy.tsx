@@ -25,9 +25,9 @@ const occupancyTrend = [
 ]
 
 const segmentData = [
-  { segment: "Overall", open: 94.2, lease: 97.8, gap: 3.6 },
-  { segment: "Centre", open: 96.1, lease: 98.5, gap: 2.4 },
-  { segment: "High Street", open: 89.7, lease: 96.2, gap: 6.5 }
+  { segment: "Royalmount", open: 94.2, lease: 97.8, gap: 3.6 },
+  { segment: "Mall", open: 96.1, lease: 98.5, gap: 2.4 },
+  { segment: "High Street East", open: 89.7, lease: 96.2, gap: 6.5 }
 ]
 
 const tenantMix = [
