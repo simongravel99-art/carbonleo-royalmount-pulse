@@ -14,7 +14,7 @@ const kpiData = [
   { title: "Market Share", value: "72", trend: 5.2, variant: "success" },
   { title: "CQS Score", value: "88.5", trend: 3.7, suffix: "%", variant: "success" },
   
-  { title: "Parking Traffic", value: "-8.4", trend: 12.1, suffix: "%", variant: "success" },
+  { title: "Parking Traffic", value: "8.4", trend: 12.1, suffix: "K", variant: "success" },
   { title: "Peak Parking Occupancy", value: "82", trend: -1.8, suffix: "%", variant: "default" },
 
   { title: "Complaints", value: "23", trend: -15.4, variant: "success" },
