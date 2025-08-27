@@ -107,7 +107,7 @@ export function SalesSection() {
         {/* Sales Trend */}
         <Card>
           <CardHeader>
-            <CardTitle>Sales Evolution</CardTitle>
+            <CardTitle>Forecasted Sales/SF Evolution</CardTitle>
           </CardHeader>
           <CardContent>
             <ChartContainer
