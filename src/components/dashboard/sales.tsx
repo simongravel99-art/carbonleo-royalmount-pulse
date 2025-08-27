@@ -14,10 +14,10 @@ import {
 import { formatNumberShort, formatCurrency } from "@/lib/format"
 
 const salesKPIs = [
-  { title: "Avg CRU Forecasted Sales/SF Ann.", value: "1,247", trend: -3.2, prefix: "$", suffix: "/SF", variant: "warning" },
+  { title: "Avg CRU Forecasted Sales/SF Ann.", value: "1,247", trend: -3.2, prefix: "$", variant: "warning" },
   { title: "Monthly CRU Sales", value: "18.2M", trend: 5.8, prefix: "$", variant: "success" },
   { title: "YoY Growth", value: "104.2", trend: 4.2, suffix: "%", variant: "success" },
-  { title: "Avg Anchors Forecasted Sales/SF Ann.", value: "127", trend: 2.1, prefix: "$", suffix: "/SF" , variant: "success" },
+  { title: "Avg Anchors Forecasted Sales/SF Ann.", value: "127", trend: 2.1, prefix: "$", variant: "success" },
   { title: "Monthly Anchors Sales", value: "18.5", trend: -1.2, suffix: "%", variant: "warning" },
   { title: "YoY Growth", value: "2.3", trend: 1.8, variant: "success" }
 ]
@@ -113,7 +113,7 @@ export function SalesSection() {
             <ChartContainer
               config={{
                 total: { label: "Total Sales", color: "hsl(var(--primary))" },
-                perSqft: { label: "$/sqft", color: "hsl(var(--secondary))" }
+                perSqft: { label: "$/SF", color: "hsl(var(--secondary))" }
               }}
               className="h-[300px]"
             >
