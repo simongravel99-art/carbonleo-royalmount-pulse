@@ -287,9 +287,9 @@ export function SalesSection() {
                   <tr className="border-b border-border">
                     <th className="p-3 text-left font-medium text-muted-foreground">Tenant</th>
                     <th className="p-3 text-left font-medium text-muted-foreground">Category</th>
-                    <th className="p-3 text-right font-medium text-muted-foreground">GLA (sqft)</th>
+                    <th className="p-3 text-right font-medium text-muted-foreground">GLA (SF)</th>
                     <th className="p-3 text-right font-medium text-muted-foreground">Total Sales</th>
-                    <th className="p-3 text-right font-medium text-muted-foreground">Sales/sqft</th>
+                    <th className="p-3 text-right font-medium text-muted-foreground">Sales/SF</th>
                     <th className="p-3 text-right font-medium text-muted-foreground">YoY Index</th>
                   </tr>
                 </thead>
