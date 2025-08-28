@@ -222,12 +222,12 @@ export function SalesSection() {
           <CardContent>
             <ChartContainer config={{
             salesPerSqft: {
-              label: "Sales/sqft",
+              label: "Sales/SF",
               color: "hsl(var(--primary))"
             },
             target: {
               label: "Target",
-              color: "hsl(var(--muted-foreground))"
+              color: "hsl(var(--chart-3))"
             }
           }} className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -237,7 +237,7 @@ export function SalesSection() {
                   <YAxis tickFormatter={value => `$${value}`} />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <Bar dataKey="salesPerSqft" fill="hsl(var(--primary))" />
-                  <Bar dataKey="target" fill="hsl(var(--muted-foreground))" opacity={0.5} />
+                  <Bar dataKey="target" fill="hsl(var(--chart-3))" opacity={0.7} />
                 </BarChart>
               </ResponsiveContainer>
             </ChartContainer>
@@ -251,24 +251,23 @@ export function SalesSection() {
           </CardHeader>
           <CardContent>
             <ChartContainer config={{
-            total: {
-              label: "Total Sales",
+            cruSalesPerSqft: {
+              label: "CRU Sales/SF",
               color: "hsl(var(--primary))"
             },
-            perSqft: {
-              label: "$/sqft",
-              color: "hsl(var(--secondary))"
+            anchorSalesPerSqft: {
+              label: "Anchor Sales/SF",
+              color: "hsl(var(--chart-2))"
             }
           }} className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={salesTrendData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
-                  <YAxis yAxisId="left" tickFormatter={value => `$${(value / 1000000).toFixed(1)}M`} />
-                  <YAxis yAxisId="right" orientation="right" tickFormatter={value => `$${value}`} />
+                  <YAxis tickFormatter={value => `$${value}`} />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <Line yAxisId="left" type="monotone" dataKey="total" stroke="hsl(var(--primary))" strokeWidth={2} />
-                  <Line yAxisId="right" type="monotone" dataKey="perSqft" stroke="hsl(var(--secondary))" strokeWidth={2} />
+                  <Line type="monotone" dataKey="cruSalesPerSqft" stroke="hsl(var(--primary))" strokeWidth={2} dot={{ fill: "hsl(var(--primary))", r: 4 }} />
+                  <Line type="monotone" dataKey="anchorSalesPerSqft" stroke="hsl(var(--chart-2))" strokeWidth={2} dot={{ fill: "hsl(var(--chart-2))", r: 4 }} />
                 </LineChart>
               </ResponsiveContainer>
             </ChartContainer>

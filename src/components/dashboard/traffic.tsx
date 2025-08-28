@@ -37,10 +37,10 @@ const parkingData = [
 ]
 
 const trafficSourcesData = [
-  { name: "Direct", value: 45.2, color: "hsl(var(--primary))" },
-  { name: "Passerelle", value: 24.5, color: "hsl(var(--secondary))" },
-  { name: "Transit", value: 18.7, color: "hsl(var(--success))" },
-  { name: "Résidentiel", value: 11.6, color: "hsl(var(--warning))" }
+  { name: "Direct", value: 45.2, color: "hsl(var(--chart-1))" },
+  { name: "Passerelle", value: 24.5, color: "hsl(var(--chart-2))" },
+  { name: "Transit", value: 18.7, color: "hsl(var(--chart-3))" },
+  { name: "Résidentiel", value: 11.6, color: "hsl(var(--chart-4))" }
 ]
 
 const hourlyTrafficData = [
@@ -117,8 +117,8 @@ export function TrafficSection() {
           <CardContent>
             <ChartContainer
               config={{
-                visitors: { label: "Visitors", color: "hsl(var(--primary))" },
-                marketShare: { label: "Market Share %", color: "hsl(var(--secondary))" }
+                visitors: { label: "Visitors", color: "hsl(var(--chart-1))" },
+                marketShare: { label: "Market Share %", color: "hsl(var(--chart-2))" }
               }}
               className="h-[300px]"
             >
@@ -129,8 +129,8 @@ export function TrafficSection() {
                   <YAxis yAxisId="left" tickFormatter={(value) => `${(value / 1000).toFixed(0)}K`} />
                   <YAxis yAxisId="right" orientation="right" tickFormatter={(value) => `${value}%`} />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <Line yAxisId="left" type="monotone" dataKey="visitors" stroke="hsl(var(--primary))" strokeWidth={2} />
-                  <Line yAxisId="right" type="monotone" dataKey="marketShare" stroke="hsl(var(--secondary))" strokeWidth={2} />
+                  <Line yAxisId="left" type="monotone" dataKey="visitors" stroke="hsl(var(--chart-1))" strokeWidth={2} dot={{ fill: "hsl(var(--chart-1))", r: 4 }} />
+                  <Line yAxisId="right" type="monotone" dataKey="marketShare" stroke="hsl(var(--chart-2))" strokeWidth={2} dot={{ fill: "hsl(var(--chart-2))", r: 4 }} />
                 </LineChart>
               </ResponsiveContainer>
             </ChartContainer>
@@ -145,8 +145,8 @@ export function TrafficSection() {
           <CardContent>
             <ChartContainer
               config={{
-                revenue: { label: "Revenue", color: "hsl(var(--primary))" },
-                peak: { label: "Peak %", color: "hsl(var(--warning))" }
+                revenue: { label: "Revenue", color: "hsl(var(--chart-1))" },
+                peak: { label: "Peak %", color: "hsl(var(--chart-3))" }
               }}
               className="h-[300px]"
             >
@@ -157,8 +157,8 @@ export function TrafficSection() {
                   <YAxis yAxisId="left" tickFormatter={(value) => `$${(value / 1000).toFixed(0)}K`} />
                   <YAxis yAxisId="right" orientation="right" tickFormatter={(value) => `${value}%`} />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <Line yAxisId="left" type="monotone" dataKey="revenue" stroke="hsl(var(--primary))" strokeWidth={2} />
-                  <Line yAxisId="right" type="monotone" dataKey="peak" stroke="hsl(var(--warning))" strokeWidth={2} />
+                  <Line yAxisId="left" type="monotone" dataKey="revenue" stroke="hsl(var(--chart-1))" strokeWidth={2} dot={{ fill: "hsl(var(--chart-1))", r: 4 }} />
+                  <Line yAxisId="right" type="monotone" dataKey="peak" stroke="hsl(var(--chart-3))" strokeWidth={2} dot={{ fill: "hsl(var(--chart-3))", r: 4 }} />
                 </LineChart>
               </ResponsiveContainer>
             </ChartContainer>
@@ -173,10 +173,10 @@ export function TrafficSection() {
           <CardContent>
             <ChartContainer
               config={{
-                direct: { label: "Direct", color: "hsl(var(--primary))" },
-                passerelle: { label: "Passerelle", color: "hsl(var(--secondary))" },
-                transit: { label: "Transit", color: "hsl(var(--success))" },
-                residential: { label: "Résidentiel", color: "hsl(var(--warning))" }
+                direct: { label: "Direct", color: "hsl(var(--chart-1))" },
+                passerelle: { label: "Passerelle", color: "hsl(var(--chart-2))" },
+                transit: { label: "Transit", color: "hsl(var(--chart-3))" },
+                residential: { label: "Résidentiel", color: "hsl(var(--chart-4))" }
               }}
               className="h-[300px]"
             >
@@ -211,7 +211,7 @@ export function TrafficSection() {
           <CardContent>
             <ChartContainer
               config={{
-                visitors: { label: "Visitors", color: "hsl(var(--primary))" }
+                visitors: { label: "Visitors", color: "hsl(var(--chart-1))" }
               }}
               className="h-[300px]"
             >
@@ -221,7 +221,7 @@ export function TrafficSection() {
                   <XAxis dataKey="hour" />
                   <YAxis tickFormatter={(value) => `${(value / 1000).toFixed(0)}K`} />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="visitors" fill="hsl(var(--primary))" />
+                  <Bar dataKey="visitors" fill="hsl(var(--chart-1))" />
                 </BarChart>
               </ResponsiveContainer>
             </ChartContainer>
