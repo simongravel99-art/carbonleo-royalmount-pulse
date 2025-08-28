@@ -30,7 +30,7 @@ export function SalesTable({
   const [density, setDensity] = useState<"default" | "compact">("default");
   const filteredData = data.filter(tenant => tenant.tenant.toLowerCase().includes(searchTerm.toLowerCase()));
   const exportCSV = () => {
-    const headers = ["Tenant", "Category", "GLA (sqft)", "Total Sales", "Sales/sqft", "YoY Index (%)"];
+    const headers = ["Tenant", "Category", "GLA (SF)", "Total Sales", "Sales/SF", "YoY Index (%)"];
     if (showGROC) headers.push("GROC (%)");
     if (showFlags) headers.push("Flags");
     const csvContent = [headers.join(","), ...filteredData.map(tenant => {
@@ -85,9 +85,9 @@ export function SalesTable({
               <TableRow>
                 <TableHead>Tenant</TableHead>
                 <TableHead>Category</TableHead>
-                <TableHead className="text-right">GLA (sqft)</TableHead>
+                <TableHead className="text-right">GLA (SF)</TableHead>
                 <TableHead className="text-right">Total Sales</TableHead>
-                <TableHead className="text-right">Sales/sqft</TableHead>
+                <TableHead className="text-right">Sales/SF</TableHead>
                 <TableHead className="text-right">YoY Index</TableHead>
                 {showGROC && <TableHead className="text-right">GROC %</TableHead>}
                 {showFlags}
