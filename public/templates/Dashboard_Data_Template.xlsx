@@ -1,0 +1,19 @@
+# Dashboard Data Template
+
+This Excel template file would normally be created using a spreadsheet application. Instead, I'll create the structure documentation and CSV templates that can be easily converted to Excel format.
+
+The template should contain the following worksheets:
+1. Overview - KPI data and market share
+2. Finance - Financial metrics and NOI data  
+3. Sales - Tenant sales and category performance
+4. Traffic - Visitor traffic and market share
+5. Operations - Energy, maintenance, and safety data
+6. GuestExperience - NPS, satisfaction, and service metrics
+7. CleaningQuality - CQS scores and area performance
+
+Each worksheet includes:
+- Data validation rules
+- Conditional formatting
+- Example data rows
+- Input instructions
+- Automatic calculations where appropriate

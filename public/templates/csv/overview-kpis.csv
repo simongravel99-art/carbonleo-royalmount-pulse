@@ -1,0 +1,11 @@
+metric,value,trend,target,format,category
+NOI Monthly,450000,2.3,430000,currency,overview
+NOI YTD,4200000,4.1,4100000,currency,overview
+Occupancy,94.2,1.2,95.0,percentage,overview
+Traffic Monthly,245000,-1.8,250000,number,overview
+Market Share,42.1,0.5,43.0,percentage,overview
+Sales per SF,425.30,3.2,420.00,currency,overview
+Total Sales,23450000,5.1,22000000,currency,overview
+Leasing Activity,15,25.0,12,number,overview
+Parking Occupancy,78.5,-2.1,80.0,percentage,overview
+Energy Index,102.3,-1.5,100.0,number,overview
