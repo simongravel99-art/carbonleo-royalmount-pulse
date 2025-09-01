@@ -217,7 +217,6 @@ Foot Locker,Footwear,2800,420000,150.00,93.4,380000,410000`,
 
     const csvData = templateData[templateType];
     if (!csvData) {
-      console.error('Template data not found for:', templateType);
       toast({
         title: "Download Error",
         description: "Template data not found",
@@ -226,39 +225,70 @@ Foot Locker,Footwear,2800,420000,150.00,93.4,380000,410000`,
       return;
     }
 
+    // Check if we're in an iframe (like Lovable preview) where downloads might be blocked
+    const isInIframe = window.self !== window.top;
+    
+    if (isInIframe) {
+      // Fallback for iframe environments: copy to clipboard instead
+      navigator.clipboard.writeText(csvData).then(() => {
+        toast({
+          title: "Template Copied",
+          description: `${templateType} template data copied to clipboard. Paste into a CSV file.`,
+        });
+      }).catch(() => {
+        // If clipboard fails, show the data in a new window
+        const newWindow = window.open('', '_blank');
+        if (newWindow) {
+          newWindow.document.write(`<pre>${csvData}</pre>`);
+          newWindow.document.title = `${templateType}-template.csv`;
+          toast({
+            title: "Template Opened",
+            description: `${templateType} template opened in new window. Copy and save as CSV.`,
+          });
+        } else {
+          toast({
+            title: "Download Blocked",
+            description: "Please allow popups or use the deployed version for downloads.",
+            variant: "destructive",
+          });
+        }
+      });
+      return;
+    }
+
     try {
-      console.log('Creating download for:', templateType);
-      
-      // Create blob from CSV data
+      // Standard download approach for non-iframe environments
       const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       
-      // Create download link
       const link = document.createElement('a');
       link.href = url;
       link.download = `${templateType}-template.csv`;
       link.style.display = 'none';
       
-      // Add to DOM, click, and remove
       document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
       
-      // Clean up
-      URL.revokeObjectURL(url);
+      // Use setTimeout to ensure the link is properly added before clicking
+      setTimeout(() => {
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        
+        toast({
+          title: "Download Started",
+          description: `${templateType}-template.csv download initiated`,
+        });
+      }, 100);
       
-      console.log('Download completed for:', templateType);
-      toast({
-        title: "Download Complete",
-        description: `${templateType}-template.csv has been downloaded`,
-      });
     } catch (error) {
-      console.error('Download failed:', error);
       toast({
         title: "Download Failed",
-        description: `Could not download template: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        description: "Could not download template. Data copied to clipboard instead.",
         variant: "destructive",
       });
+      
+      // Fallback to clipboard
+      navigator.clipboard.writeText(csvData);
     }
   };
 
