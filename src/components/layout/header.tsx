@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { CalendarDays, Download, HelpCircle, Settings } from "lucide-react";
+import { CalendarDays, Download, HelpCircle, Settings, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatDateTime } from "@/lib/format";
+import { useNavigate } from "react-router-dom";
 
 interface HeaderProps {
   title?: string;
@@ -19,6 +20,7 @@ export function Header({
   onSettings,
   onHelp,
 }: HeaderProps) {
+  const navigate = useNavigate();
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-primary">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 h-14 flex items-center justify-between">
@@ -41,6 +43,16 @@ export function Header({
           </Badge>
           
           <div className="flex items-center space-x-3">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate('/import')}
+              className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10"
+            >
+              <Upload className="h-4 w-4 mr-2" />
+              Import Data
+            </Button>
+            
             {onExport && (
               <Button
                 variant="outline"
