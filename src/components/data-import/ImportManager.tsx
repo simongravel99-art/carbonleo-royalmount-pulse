@@ -146,11 +146,15 @@ export function ImportManager() {
     }
   };
 
-  const downloadTemplate = (templateType: string) => {
-    console.log('Download template called for:', templateType);
+  const downloadTemplate = () => {
+    console.log('Download comprehensive template called');
     
-    const templateData: Record<string, string> = {
-      kpis: `metric,value,trend,target,format,category
+    const comprehensiveTemplate = `# Dashboard Data Import Template
+# Instructions: Each section below contains sample data for different dashboard modules
+# Copy the relevant sections to separate CSV files or import each section individually
+
+# === KPI METRICS ===
+metric,value,trend,target,format,category
 NOI Monthly,450000,2.3,430000,currency,overview
 NOI YTD,4200000,4.1,4100000,currency,overview
 Occupancy,94.2,1.2,95.0,percentage,overview
@@ -160,9 +164,10 @@ Sales per SF,425.30,3.2,420.00,currency,overview
 Total Sales,23450000,5.1,22000000,currency,overview
 Leasing Activity,15,25.0,12,number,overview
 Parking Occupancy,78.5,-2.1,80.0,percentage,overview
-Energy Index,102.3,-1.5,100.0,number,overview`,
-      
-      tenants: `tenantName,category,gla,sales,salesPerSF,yoyIndex,grocCurrent,grocPrevious
+Energy Index,102.3,-1.5,100.0,number,overview
+
+# === TENANT SALES ===
+tenantName,category,gla,sales,salesPerSF,yoyIndex,grocCurrent,grocPrevious
 Apple Store,Electronics,2500,980000,392.00,108.5,450000,420000
 Zara,Fashion,3200,756000,236.25,95.2,680000,720000
 The Keg,Restaurant,4500,1200000,266.67,112.3,950000,850000
@@ -172,78 +177,72 @@ Hudson's Bay,Department Store,12000,2400000,200.00,96.8,2100000,2200000
 Lululemon,Activewear,2200,550000,250.00,118.5,480000,400000
 Tim Hortons,Food Service,800,180000,225.00,105.2,155000,148000
 Pandora,Jewelry,650,195000,300.00,101.8,170000,167000
-Foot Locker,Footwear,2800,420000,150.00,93.4,380000,410000`,
-      
-      traffic: `date,totalVisitors,marketShare,fridayVisitors,saturdayVisitors,sundayVisitors
+Foot Locker,Footwear,2800,420000,150.00,93.4,380000,410000
+
+# === TRAFFIC DATA ===
+date,totalVisitors,marketShare,fridayVisitors,saturdayVisitors,sundayVisitors
 2024-01-01,35000,42.1,12000,15000,8000
 2024-01-08,38000,42.3,13000,16000,9000
 2024-01-15,36000,41.8,12500,15500,8000
 2024-01-22,39000,42.5,13500,16500,9000
 2024-01-29,37000,42.0,12800,15800,8400
-2024-02-05,40000,42.8,14000,17000,9000`,
-      
-      finance: `month,baseRent,percentRent,noi,operatingRatio,receivables30,receivables60,receivables90,receivables90Plus
+2024-02-05,40000,42.8,14000,17000,9000
+
+# === FINANCE DATA ===
+month,baseRent,percentRent,noi,operatingRatio,receivables30,receivables60,receivables90,receivables90Plus
 2024-01,3200000,480000,420000,68.5,125000,45000,18000,8000
 2024-02,3250000,495000,435000,67.8,118000,38000,15000,6000
 2024-03,3300000,510000,450000,67.2,132000,42000,20000,9000
 2024-04,3350000,525000,465000,66.9,128000,40000,17000,7000
 2024-05,3400000,540000,480000,66.5,135000,48000,22000,11000
-2024-06,3450000,555000,495000,66.1,142000,52000,25000,13000`,
-      
-      operations: `month,energyIndex,hydroConsumption,responseTime,slaCompliance,safetyIncidents,workOrdersCompleted
+2024-06,3450000,555000,495000,66.1,142000,52000,25000,13000
+
+# === OPERATIONS DATA ===
+month,energyIndex,hydroConsumption,responseTime,slaCompliance,safetyIncidents,workOrdersCompleted
 2024-01,102.3,1250000,2.1,94.5,2,156
 2024-02,101.8,1180000,1.9,95.2,1,142
 2024-03,100.5,1320000,2.3,93.8,3,168
 2024-04,99.8,1280000,2.0,94.8,1,159
 2024-05,101.2,1420000,2.2,94.1,2,172
-2024-06,102.1,1580000,2.4,93.5,4,185`,
-      
-      guest: `month,npsScore,parkingAppUsage,giftCardSales,complaintsTotal,complaintsResolved,serviceScore,cleanlinessScore,ambienceScore
+2024-06,102.1,1580000,2.4,93.5,4,185
+
+# === GUEST EXPERIENCE DATA ===
+month,npsScore,parkingAppUsage,giftCardSales,complaintsTotal,complaintsResolved,serviceScore,cleanlinessScore,ambienceScore
 2024-01,72.5,68.2,185000,24,22,8.2,8.5,8.1
 2024-02,73.1,69.8,205000,18,17,8.4,8.6,8.3
 2024-03,71.8,71.2,220000,32,28,8.1,8.3,8.0
 2024-04,74.2,72.5,195000,21,19,8.5,8.7,8.4
 2024-05,73.6,74.1,235000,26,24,8.3,8.4,8.2
-2024-06,75.1,75.8,248000,19,18,8.6,8.8,8.5`,
-      
-      cleaning: `month,cqsScore,surfaceCleanliness,washroomHygiene,floorCleanliness,generalAppearance,foodCourtScore,fashionWingScore,commonAreasScore
+2024-06,75.1,75.8,248000,19,18,8.6,8.8,8.5
+
+# === CLEANING QUALITY DATA ===
+month,cqsScore,surfaceCleanliness,washroomHygiene,floorCleanliness,generalAppearance,foodCourtScore,fashionWingScore,commonAreasScore
 2024-01,85.2,87.5,82.3,86.8,84.1,81.5,88.2,86.4
 2024-02,86.1,88.2,83.8,87.5,85.3,82.8,89.1,87.2
 2024-03,84.8,86.9,81.5,85.9,83.7,80.2,87.5,85.8
 2024-04,87.3,89.1,85.2,88.7,86.8,84.5,90.2,88.9
 2024-05,86.7,88.8,84.6,87.9,85.9,83.1,89.8,87.6
-2024-06,88.1,90.2,86.3,89.4,87.5,85.8,91.5,89.7`
-    };
-
-    const csvData = templateData[templateType];
-    if (!csvData) {
-      toast({
-        title: "Download Error",
-        description: "Template data not found",
-        variant: "destructive",
-      });
-      return;
-    }
+2024-06,88.1,90.2,86.3,89.4,87.5,85.8,91.5,89.7`;
 
     // Check if we're in an iframe (like Lovable preview) where downloads might be blocked
     const isInIframe = window.self !== window.top;
     
     if (isInIframe) {
       // Fallback for iframe environments: copy to clipboard instead
-      navigator.clipboard.writeText(csvData).then(() => {
+      navigator.clipboard.writeText(comprehensiveTemplate).then(() => {
         toast({
           title: "Template Copied",
-          description: `${templateType} template data copied to clipboard. Paste into a CSV file.`,
+          description: "Comprehensive template data copied to clipboard. Paste into a text file and save as CSV.",
         });
       }).catch(() => {
         // If clipboard fails, show the data in a new window
         const newWindow = window.open('', '_blank');
         if (newWindow) {
-          newWindow.document.write(`<pre>${csvData}</pre>`);
-          newWindow.document.title = `${templateType}-template.csv`;
+          newWindow.document.write(`<pre>${comprehensiveTemplate}</pre>`);
+          newWindow.document.title = "dashboard-data-template.csv";
           toast({
             title: "Template Opened",
-            description: `${templateType} template opened in new window. Copy and save as CSV.`,
+            description: "Comprehensive template opened in new window. Copy and save as CSV.",
           });
         } else {
           toast({
@@ -258,12 +257,12 @@ Foot Locker,Footwear,2800,420000,150.00,93.4,380000,410000`,
 
     try {
       // Standard download approach for non-iframe environments
-      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+      const blob = new Blob([comprehensiveTemplate], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       
       const link = document.createElement('a');
       link.href = url;
-      link.download = `${templateType}-template.csv`;
+      link.download = "dashboard-data-template.csv";
       link.style.display = 'none';
       
       document.body.appendChild(link);
@@ -276,7 +275,7 @@ Foot Locker,Footwear,2800,420000,150.00,93.4,380000,410000`,
         
         toast({
           title: "Download Started",
-          description: `${templateType}-template.csv download initiated`,
+          description: "dashboard-data-template.csv download initiated",
         });
       }, 100);
       
@@ -288,7 +287,7 @@ Foot Locker,Footwear,2800,420000,150.00,93.4,380000,410000`,
       });
       
       // Fallback to clipboard
-      navigator.clipboard.writeText(csvData);
+      navigator.clipboard.writeText(comprehensiveTemplate);
     }
   };
 
@@ -307,18 +306,6 @@ Foot Locker,Footwear,2800,420000,150.00,93.4,380000,410000`,
         <p className="text-sm text-muted-foreground">{description}</p>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => downloadTemplate(dataType)}
-            className="flex items-center gap-2"
-          >
-            <Download className="h-4 w-4" />
-            Download Template
-          </Button>
-        </div>
-        
         <div className="space-y-2">
           <Label htmlFor={`file-${dataType}`}>Upload CSV File</Label>
           <Input
@@ -343,9 +330,28 @@ Foot Locker,Footwear,2800,420000,150.00,93.4,380000,410000`,
       <div>
         <h2 className="text-2xl font-bold">Data Import Manager</h2>
         <p className="text-muted-foreground">
-          Import real data from Excel/CSV files to update dashboard metrics
+          Import real data from Excel/CSV files to update dashboard metrics. Download the comprehensive template below to see all data formats.
         </p>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Download Template</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Get a comprehensive template file containing all data formats and sample data for all dashboard modules.
+          </p>
+        </CardHeader>
+        <CardContent>
+          <Button
+            variant="outline"
+            onClick={downloadTemplate}
+            className="flex items-center gap-2"
+          >
+            <Download className="h-4 w-4" />
+            Download Comprehensive Template
+          </Button>
+        </CardContent>
+      </Card>
 
       {importResults && (
         <Alert variant={importResults.isSuccess ? "default" : "destructive"}>
