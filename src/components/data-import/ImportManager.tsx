@@ -146,7 +146,7 @@ export function ImportManager() {
     }
   };
 
-  const downloadTemplate = (templateType: string) => {
+  const downloadTemplate = async (templateType: string) => {
     const templateUrls: Record<string, string> = {
       kpis: '/templates/csv/overview-kpis.csv',
       tenants: '/templates/csv/tenant-sales.csv',
@@ -158,13 +158,48 @@ export function ImportManager() {
     };
 
     const url = templateUrls[templateType];
-    if (url) {
+    if (!url) {
+      console.error('Template type not found:', templateType);
+      toast({
+        title: "Download Error",
+        description: "Template not found",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      console.log('Attempting to download:', url);
+      const response = await fetch(url);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      
       const link = document.createElement('a');
-      link.href = url;
+      link.href = downloadUrl;
       link.download = `${templateType}-template.csv`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      
+      // Clean up the object URL
+      window.URL.revokeObjectURL(downloadUrl);
+      
+      toast({
+        title: "Download Started",
+        description: `${templateType}-template.csv is downloading`,
+      });
+    } catch (error) {
+      console.error('Download failed:', error);
+      toast({
+        title: "Download Failed",
+        description: `Could not download template: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        variant: "destructive",
+      });
     }
   };
 
