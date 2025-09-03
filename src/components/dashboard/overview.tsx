@@ -2,6 +2,8 @@ import { KPICard } from "@/components/ui/kpi-card"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts"
+import { useKPIData, useTrafficData } from "@/hooks/use-dashboard-data"
+import { useEffect, useState } from "react"
 
 // Mock data for demonstration
 const kpiData = [
@@ -49,11 +51,72 @@ const marketShareData = [
 ]
 
 export function DashboardOverview() {
+  const { data: importedKPIs, isImported: hasKPIData } = useKPIData();
+  const { data: importedTraffic, isImported: hasTrafficData } = useTrafficData();
+  const [displayKPIs, setDisplayKPIs] = useState(kpiData);
+  const [displayTrafficData, setDisplayTrafficData] = useState(marketShareData);
+
+  useEffect(() => {
+    // Listen for data updates
+    const handleDataUpdate = () => {
+      window.location.reload(); // Simple refresh for now
+    };
+
+    window.addEventListener('dashboardDataUpdated', handleDataUpdate);
+    return () => window.removeEventListener('dashboardDataUpdated', handleDataUpdate);
+  }, []);
+
+  useEffect(() => {
+    if (hasKPIData && importedKPIs.length > 0) {
+      // Convert imported KPIs to display format
+      const overviewKPIs = importedKPIs
+        .filter(kpi => kpi.category === 'overview')
+        .map(kpi => ({
+          title: kpi.metric,
+          value: kpi.format === 'currency' ? `${(kpi.value / 1000000).toFixed(1)}M` :
+                 kpi.format === 'percentage' ? kpi.value.toFixed(1) :
+                 kpi.value.toLocaleString(),
+          trend: kpi.trend || 0,
+          prefix: kpi.format === 'currency' ? '$' : undefined,
+          suffix: kpi.format === 'percentage' ? '%' : undefined,
+          variant: kpi.trend && kpi.trend > 0 ? 'success' : 
+                   kpi.trend && kpi.trend < 0 ? 'warning' : 'default'
+        }));
+      
+      if (overviewKPIs.length > 0) {
+        setDisplayKPIs(overviewKPIs);
+      }
+    }
+  }, [hasKPIData, importedKPIs]);
+
+  useEffect(() => {
+    if (hasTrafficData && importedTraffic.length > 0) {
+      // Convert imported traffic to chart format
+      const chartData = importedTraffic.map(item => ({
+        month: new Date(item.date).toLocaleDateString('en', { month: 'short' }),
+        marketShare: item.marketShare
+      }));
+      
+      if (chartData.length > 0) {
+        setDisplayTrafficData(chartData);
+      }
+    }
+  }, [hasTrafficData, importedTraffic]);
+
   return (
     <div className="space-y-6">
+      {/* Data Status Banner */}
+      {(hasKPIData || hasTrafficData) && (
+        <div className="bg-success/10 border border-success/20 rounded-lg p-4">
+          <p className="text-success text-sm font-medium">
+            ✓ Using imported data {hasKPIData && "• KPIs"} {hasTrafficData && "• Traffic"}
+          </p>
+        </div>
+      )}
+
       {/* KPI Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {kpiData.map((kpi, index) => (
+        {displayKPIs.map((kpi, index) => (
           <KPICard
             key={index}
             title={kpi.title}
@@ -84,7 +147,7 @@ export function DashboardOverview() {
             className="h-[300px]"
           >
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={marketShareData}>
+              <LineChart data={displayTrafficData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis 
                   dataKey="month" 

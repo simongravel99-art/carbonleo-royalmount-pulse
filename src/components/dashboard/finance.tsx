@@ -2,6 +2,8 @@ import { KPICard } from "@/components/ui/kpi-card"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, BarChart, Bar } from "recharts"
+import { useKPIData, useFinanceData } from "@/hooks/use-dashboard-data"
+import { useEffect, useState } from "react"
 
 const financeKPIs = [
   { title: "Base Rent", value: "450K", trend: -2.1, prefix: "$", variant: "success" },
@@ -42,11 +44,73 @@ const receivablesData = [
 ]
 
 export function FinanceSection() {
+  const { data: importedKPIs, isImported: hasKPIData } = useKPIData();
+  const { data: importedFinance, isImported: hasFinanceData } = useFinanceData();
+  const [displayKPIs, setDisplayKPIs] = useState(financeKPIs);
+  const [displayNOIData, setDisplayNOIData] = useState(noiData);
+
+  useEffect(() => {
+    // Listen for data updates
+    const handleDataUpdate = () => {
+      window.location.reload();
+    };
+
+    window.addEventListener('dashboardDataUpdated', handleDataUpdate);
+    return () => window.removeEventListener('dashboardDataUpdated', handleDataUpdate);
+  }, []);
+
+  useEffect(() => {
+    if (hasKPIData && importedKPIs.length > 0) {
+      const financeKPIs = importedKPIs
+        .filter(kpi => kpi.category === 'finance')
+        .map(kpi => ({
+          title: kpi.metric,
+          value: kpi.format === 'currency' ? `${(kpi.value / 1000).toFixed(0)}K` :
+                 kpi.format === 'percentage' ? kpi.value.toFixed(1) :
+                 kpi.value.toLocaleString(),
+          trend: kpi.trend || 0,
+          prefix: kpi.format === 'currency' ? '$' : undefined,
+          suffix: kpi.format === 'percentage' ? '%' : undefined,
+          variant: kpi.trend && kpi.trend > 0 ? 'success' : 
+                   kpi.trend && kpi.trend < 0 ? 'warning' : 'default'
+        }));
+      
+      if (financeKPIs.length > 0) {
+        setDisplayKPIs(financeKPIs);
+      }
+    }
+  }, [hasKPIData, importedKPIs]);
+
+  useEffect(() => {
+    if (hasFinanceData && importedFinance.length > 0) {
+      const chartData = importedFinance.map(item => ({
+        month: item.month,
+        monthly: item.noi,
+        ytd: importedFinance.slice(0, importedFinance.indexOf(item) + 1)
+          .reduce((sum, curr) => sum + curr.noi, 0),
+        forecast: item.noi * 1.05 // Simple forecast
+      }));
+      
+      if (chartData.length > 0) {
+        setDisplayNOIData(chartData);
+      }
+    }
+  }, [hasFinanceData, importedFinance]);
+
   return (
     <div className="space-y-6">
+      {/* Data Status Banner */}
+      {(hasKPIData || hasFinanceData) && (
+        <div className="bg-success/10 border border-success/20 rounded-lg p-4">
+          <p className="text-success text-sm font-medium">
+            ✓ Using imported data {hasKPIData && "• KPIs"} {hasFinanceData && "• Finance"}
+          </p>
+        </div>
+      )}
+
       {/* KPI Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {financeKPIs.map((kpi, index) => (
+        {displayKPIs.map((kpi, index) => (
           <KPICard
             key={index}
             title={kpi.title}
@@ -75,7 +139,7 @@ export function FinanceSection() {
               className="h-[300px]"
             >
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={noiData}>
+                <LineChart data={displayNOIData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`} />

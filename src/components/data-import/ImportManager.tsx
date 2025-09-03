@@ -33,6 +33,10 @@ export function ImportManager() {
         case 'kpis':
           const kpiData = DataImportService.parseKPIData(text);
           const kpiValidation = validateImportedData(kpiData, ['metric', 'value', 'format', 'category']);
+          if (kpiValidation.isValid) {
+            const { saveDashboardData } = await import('@/lib/dashboard-data');
+            saveDashboardData('kpis', kpiData);
+          }
           result = {
             isSuccess: kpiValidation.isValid,
             message: kpiValidation.isValid ? 'KPI data imported successfully' : 'Validation errors found',
@@ -44,6 +48,10 @@ export function ImportManager() {
         case 'tenants':
           const tenantData = DataImportService.parseTenantData(text);
           const tenantValidation = validateImportedData(tenantData, ['tenantName', 'category', 'gla', 'sales']);
+          if (tenantValidation.isValid) {
+            const { saveDashboardData } = await import('@/lib/dashboard-data');
+            saveDashboardData('tenants', tenantData);
+          }
           result = {
             isSuccess: tenantValidation.isValid,
             message: tenantValidation.isValid ? 'Tenant data imported successfully' : 'Validation errors found',
@@ -55,6 +63,10 @@ export function ImportManager() {
         case 'traffic':
           const trafficData = DataImportService.parseTrafficData(text);
           const trafficValidation = validateImportedData(trafficData, ['date', 'totalVisitors', 'marketShare']);
+          if (trafficValidation.isValid) {
+            const { saveDashboardData } = await import('@/lib/dashboard-data');
+            saveDashboardData('traffic', trafficData);
+          }
           result = {
             isSuccess: trafficValidation.isValid,
             message: trafficValidation.isValid ? 'Traffic data imported successfully' : 'Validation errors found',
@@ -66,6 +78,10 @@ export function ImportManager() {
         case 'finance':
           const financeData = DataImportService.parseFinanceData(text);
           const financeValidation = validateImportedData(financeData, ['month', 'baseRent', 'noi']);
+          if (financeValidation.isValid) {
+            const { saveDashboardData } = await import('@/lib/dashboard-data');
+            saveDashboardData('finance', financeData);
+          }
           result = {
             isSuccess: financeValidation.isValid,
             message: financeValidation.isValid ? 'Finance data imported successfully' : 'Validation errors found',
@@ -77,6 +93,10 @@ export function ImportManager() {
         case 'operations':
           const opsData = DataImportService.parseOperationsData(text);
           const opsValidation = validateImportedData(opsData, ['month', 'energyIndex', 'responseTime']);
+          if (opsValidation.isValid) {
+            const { saveDashboardData } = await import('@/lib/dashboard-data');
+            saveDashboardData('operations', opsData);
+          }
           result = {
             isSuccess: opsValidation.isValid,
             message: opsValidation.isValid ? 'Operations data imported successfully' : 'Validation errors found',
@@ -88,6 +108,10 @@ export function ImportManager() {
         case 'guest':
           const guestData = DataImportService.parseGuestData(text);
           const guestValidation = validateImportedData(guestData, ['month', 'npsScore']);
+          if (guestValidation.isValid) {
+            const { saveDashboardData } = await import('@/lib/dashboard-data');
+            saveDashboardData('guest', guestData);
+          }
           result = {
             isSuccess: guestValidation.isValid,
             message: guestValidation.isValid ? 'Guest experience data imported successfully' : 'Validation errors found',
@@ -99,6 +123,10 @@ export function ImportManager() {
         case 'cleaning':
           const cleaningData = DataImportService.parseCleaningData(text);
           const cleaningValidation = validateImportedData(cleaningData, ['month', 'cqsScore']);
+          if (cleaningValidation.isValid) {
+            const { saveDashboardData } = await import('@/lib/dashboard-data');
+            saveDashboardData('cleaning', cleaningData);
+          }
           result = {
             isSuccess: cleaningValidation.isValid,
             message: cleaningValidation.isValid ? 'Cleaning quality data imported successfully' : 'Validation errors found',
@@ -117,9 +145,12 @@ export function ImportManager() {
       setImportResults(result);
       
       if (result.isSuccess) {
+        // Notify dashboard components to refresh
+        window.dispatchEvent(new CustomEvent('dashboardDataUpdated'));
+        
         toast({
           title: "Import Successful",
-          description: `${result.recordsProcessed} records processed successfully`,
+          description: `${result.recordsProcessed} records processed successfully. Dashboard updated!`,
         });
       } else {
         toast({
