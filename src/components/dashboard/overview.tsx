@@ -39,7 +39,7 @@ export function DashboardOverview() {
       return { type: 'number', prefix: undefined, suffix: undefined };
     }
     if (lowerMetric.includes('per sf') || lowerMetric.includes('/sf')) {
-      return { type: 'currency', prefix: '$', suffix: '/sf' };
+      return { type: 'currency', prefix: '$', suffix: '/SF' };
     }
     return { type: 'number', prefix: undefined, suffix: undefined };
   };
