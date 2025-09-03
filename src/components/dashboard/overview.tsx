@@ -49,8 +49,12 @@ export function DashboardOverview() {
     const format = getMetricFormat(kpi.Metric);
     let value: string;
     
+    
     if (format.type === 'currency') {
-      if (kpi['Current Value'] >= 1000000) {
+      if (format.suffix === '/SF') {
+        // For /SF metrics, always show full number with commas
+        value = kpi['Current Value'].toLocaleString();
+      } else if (kpi['Current Value'] >= 1000000) {
         value = `${(kpi['Current Value'] / 1000000).toFixed(1)}M`;
       } else if (kpi['Current Value'] >= 1000) {
         value = `${(kpi['Current Value'] / 1000).toFixed(0)}K`;
