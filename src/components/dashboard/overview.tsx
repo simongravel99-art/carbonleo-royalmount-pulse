@@ -38,7 +38,7 @@ export function DashboardOverview() {
     if (lowerMetric.includes('traffic') || lowerMetric.includes('visitors') || lowerMetric.includes('leasing') || lowerMetric.includes('units')) {
       return { type: 'number', prefix: undefined, suffix: undefined };
     }
-    if (lowerMetric.includes('per sf') || lowerMetric.includes('/sf')) {
+    if (lowerMetric.includes('per sf') || lowerMetric.includes('/SF')) {
       return { type: 'currency', prefix: '$', suffix: '/SF' };
     }
     return { type: 'number', prefix: undefined, suffix: undefined };
