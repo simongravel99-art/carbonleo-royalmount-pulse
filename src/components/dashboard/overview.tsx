@@ -26,21 +26,53 @@ export function DashboardOverview() {
   const marketShareData = selectMarketShareTrend();
   const hasAnyData = selectHasAnyData();
 
+  // Helper function to determine format based on metric name
+  const getMetricFormat = (metric: string) => {
+    const lowerMetric = metric.toLowerCase();
+    if (lowerMetric.includes('noi') || lowerMetric.includes('sales') || lowerMetric.includes('revenue')) {
+      return { type: 'currency', prefix: '$', suffix: undefined };
+    }
+    if (lowerMetric.includes('occupancy') || lowerMetric.includes('market share') || lowerMetric.includes('%')) {
+      return { type: 'percentage', prefix: undefined, suffix: '%' };
+    }
+    if (lowerMetric.includes('traffic') || lowerMetric.includes('visitors') || lowerMetric.includes('leasing') || lowerMetric.includes('units')) {
+      return { type: 'number', prefix: undefined, suffix: undefined };
+    }
+    if (lowerMetric.includes('per sf') || lowerMetric.includes('/sf')) {
+      return { type: 'currency', prefix: '$', suffix: '/sf' };
+    }
+    return { type: 'number', prefix: undefined, suffix: undefined };
+  };
+
   // Process KPIs for display
-  const processedKPIs = overviewKPIs.map(kpi => ({
-    title: kpi.Metric,
-    value: kpi.Unit === '$' ? 
-      kpi['Current Value'] >= 1000000 ? `${(kpi['Current Value'] / 1000000).toFixed(1)}M` :
-      kpi['Current Value'] >= 1000 ? `${(kpi['Current Value'] / 1000).toFixed(0)}K` :
-      kpi['Current Value'].toLocaleString() :
-      kpi.Unit === '%' ? kpi['Current Value'].toFixed(1) :
-      kpi['Current Value'].toLocaleString(),
-    trend: kpi['YoY Change (%)'],
-    prefix: kpi.Unit === '$' ? '$' : undefined,
-    suffix: kpi.Unit === '%' ? '%' : kpi.Unit !== '$' ? kpi.Unit : undefined,
-    variant: kpi['YoY Change (%)'] > 0 ? 'success' as const : 
-             kpi['YoY Change (%)'] < 0 ? 'warning' as const : 'default' as const
-  }));
+  const processedKPIs = overviewKPIs.map(kpi => {
+    const format = getMetricFormat(kpi.Metric);
+    let value: string;
+    
+    if (format.type === 'currency') {
+      if (kpi['Current Value'] >= 1000000) {
+        value = `${(kpi['Current Value'] / 1000000).toFixed(1)}M`;
+      } else if (kpi['Current Value'] >= 1000) {
+        value = `${(kpi['Current Value'] / 1000).toFixed(0)}K`;
+      } else {
+        value = kpi['Current Value'].toLocaleString();
+      }
+    } else if (format.type === 'percentage') {
+      value = kpi['Current Value'].toFixed(1);
+    } else {
+      value = kpi['Current Value'].toLocaleString();
+    }
+
+    return {
+      title: kpi.Metric,
+      value,
+      trend: kpi['YoY Change (%)'],
+      prefix: format.prefix,
+      suffix: format.suffix,
+      variant: kpi['YoY Change (%)'] > 0 ? 'success' as const : 
+               kpi['YoY Change (%)'] < 0 ? 'warning' as const : 'default' as const
+    };
+  });
 
   // Process market share data for chart
   const chartData = marketShareData.map(item => ({

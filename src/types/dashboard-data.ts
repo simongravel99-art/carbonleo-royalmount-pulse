@@ -10,7 +10,6 @@ export interface OverviewKPI {
   'Previous Value': number;
   'YoY Change (%)': number;
   Target: number;
-  Unit: string;
   Date: string;
 }
 
@@ -196,7 +195,7 @@ export const REQUIRED_SHEETS = [
 ] as const;
 
 export const REQUIRED_COLUMNS: Record<keyof DashboardData, string[]> = {
-  'Overview & KPIs': ['Metric', 'Current Value', 'Previous Value', 'YoY Change (%)', 'Target', 'Unit', 'Date'],
+  'Overview & KPIs': ['Metric', 'Current Value', 'Previous Value', 'YoY Change (%)', 'Target', 'Date'],
   'COS Performance': ['Date', 'COS Score', 'Age Satisfaction', 'Surface Cleanliness', 'Washroom Hygiene', 'Waste Management', 'Policies & Furnishings', 'Presentation & Order'],
   'Area Performance': ['Area', 'COS Score', 'Surface Rating', 'Washroom Rating', 'Waste Mgmt Rating', 'Status', 'Date'],
   'Guest Experience': ['Date', 'NPS Score', 'Parking Efficiency (%)', 'Repeat App Users (%)', 'Gift Card Sales ($)', 'Complaints Resolved (%)', 'Customer Service Rating', 'Cleanliness Rating', 'Ambience Rating', 'Safety Rating', 'Accessibility Rating', 'Technology Rating'],

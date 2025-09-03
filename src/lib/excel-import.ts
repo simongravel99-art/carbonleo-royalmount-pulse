@@ -253,7 +253,6 @@ export class ExcelImportService {
           'Previous Value': 2200000,
           'YoY Change (%)': 9.1,
           Target: 2300000,
-          Unit: '$',
           Date: '2024-06-01'
         },
         {
@@ -262,7 +261,6 @@ export class ExcelImportService {
           'Previous Value': 720000,
           'YoY Change (%)': 17.6,
           Target: 800000,
-          Unit: 'visitors',
           Date: '2024-06-01'
         }
       ],
