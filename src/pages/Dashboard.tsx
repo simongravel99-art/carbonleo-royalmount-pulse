@@ -10,7 +10,7 @@ import { TrafficSection } from "@/components/dashboard/traffic"
 import { OpsSection } from "@/components/dashboard/ops"
 import { GuestExperienceSection } from "@/components/dashboard/guest-experience"
 import { CleaningQualitySection } from "@/components/dashboard/cleaning-quality"
-import { AdminSection } from "@/components/dashboard/admin"
+import { ImportManager } from "@/components/data-import/ImportManager"
 import { addDays, subWeeks } from "date-fns"
 
 export default function Dashboard() {
@@ -44,7 +44,7 @@ export default function Dashboard() {
       case "cleaning":
         return <CleaningQualitySection />
       case "admin":
-        return <AdminSection />
+        return <ImportManager />
       default:
         return <DashboardOverview />
     }
