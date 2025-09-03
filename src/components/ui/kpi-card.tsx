@@ -41,7 +41,8 @@ export function KPICard({
       case "percentage":
         return formatPct(numValue);
       default:
-        return `${prefix}${typeof value === 'number' ? value.toLocaleString() : value}${suffix}`;
+        const formattedNumber = typeof value === 'number' ? value.toLocaleString() : value;
+        return `${prefix || ''}${formattedNumber}${suffix || ''}`;
     }
   };
 
