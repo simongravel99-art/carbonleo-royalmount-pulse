@@ -2,8 +2,12 @@ import { KPICard } from "@/components/ui/kpi-card"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, BarChart, Bar } from "recharts"
-import { useKPIData, useFinanceData } from "@/hooks/use-dashboard-data"
-import { useEffect, useState } from "react"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { AlertTriangle } from "lucide-react"
+import { 
+  selectCOSPerformance, 
+  selectHasAnyData 
+} from "@/store/dashboard-store"
 
 const financeKPIs = [
   { title: "Base Rent", value: "450K", trend: -2.1, prefix: "$", variant: "success" },
@@ -43,84 +47,57 @@ const receivablesData = [
   { category: "+90 jours", current: 0, overall: 125000 }
 ]
 
+function EmptyState({ message }: { message: string }) {
+  return (
+    <Alert>
+      <AlertTriangle className="h-4 w-4" />
+      <AlertDescription>
+        {message}
+      </AlertDescription>
+    </Alert>
+  );
+}
+
 export function FinanceSection() {
-  const { data: importedKPIs, isImported: hasKPIData } = useKPIData();
-  const { data: importedFinance, isImported: hasFinanceData } = useFinanceData();
-  const [displayKPIs, setDisplayKPIs] = useState(financeKPIs);
-  const [displayNOIData, setDisplayNOIData] = useState(noiData);
+  const financeData = selectCOSPerformance();
+  const hasAnyData = selectHasAnyData();
 
-  useEffect(() => {
-    // Listen for data updates
-    const handleDataUpdate = () => {
-      window.location.reload();
-    };
-
-    window.addEventListener('dashboardDataUpdated', handleDataUpdate);
-    return () => window.removeEventListener('dashboardDataUpdated', handleDataUpdate);
-  }, []);
-
-  useEffect(() => {
-    if (hasKPIData && importedKPIs.length > 0) {
-      const financeKPIs = importedKPIs
-        .filter(kpi => kpi.category === 'finance')
-        .map(kpi => ({
-          title: kpi.metric,
-          value: kpi.format === 'currency' ? `${(kpi.value / 1000).toFixed(0)}K` :
-                 kpi.format === 'percentage' ? kpi.value.toFixed(1) :
-                 kpi.value.toLocaleString(),
-          trend: kpi.trend || 0,
-          prefix: kpi.format === 'currency' ? '$' : undefined,
-          suffix: kpi.format === 'percentage' ? '%' : undefined,
-          variant: kpi.trend && kpi.trend > 0 ? 'success' : 
-                   kpi.trend && kpi.trend < 0 ? 'warning' : 'default'
-        }));
-      
-      if (financeKPIs.length > 0) {
-        setDisplayKPIs(financeKPIs);
-      }
-    }
-  }, [hasKPIData, importedKPIs]);
-
-  useEffect(() => {
-    if (hasFinanceData && importedFinance.length > 0) {
-      const chartData = importedFinance.map(item => ({
-        month: item.month,
-        monthly: item.noi,
-        ytd: importedFinance.slice(0, importedFinance.indexOf(item) + 1)
-          .reduce((sum, curr) => sum + curr.noi, 0),
-        forecast: item.noi * 1.05 // Simple forecast
-      }));
-      
-      if (chartData.length > 0) {
-        setDisplayNOIData(chartData);
-      }
-    }
-  }, [hasFinanceData, importedFinance]);
+  // Process NOI data for chart
+  const chartData = financeData.map(item => ({
+    month: new Date(item.Date).toLocaleDateString('en', { month: 'short' }),
+    monthly: item['NOI ($)'] || 0,
+    ytd: item['YTD NOI ($)'] || 0,
+    forecast: (item['NOI ($)'] || 0) * 1.05 // Simple forecast
+  }));
 
   return (
     <div className="space-y-6">
       {/* Data Status Banner */}
-      {(hasKPIData || hasFinanceData) && (
+      {hasAnyData && (
         <div className="bg-success/10 border border-success/20 rounded-lg p-4">
           <p className="text-success text-sm font-medium">
-            ✓ Using imported data {hasKPIData && "• KPIs"} {hasFinanceData && "• Finance"}
+            ✓ Using imported data from Excel template
           </p>
         </div>
       )}
 
       {/* KPI Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {displayKPIs.map((kpi, index) => (
-          <KPICard
-            key={index}
-            title={kpi.title}
-            value={kpi.value}
-            trend={kpi.trend}
-            prefix={kpi.prefix}
-            variant={kpi.variant as any}
-          />
-        ))}
-      </div>
+      {financeKPIs.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {financeKPIs.map((kpi, index) => (
+            <KPICard
+              key={index}
+              title={kpi.title}
+              value={kpi.value}
+              trend={kpi.trend}
+              prefix={kpi.prefix}
+              variant={kpi.variant as any}
+            />
+          ))}
+        </div>
+      ) : (
+        <EmptyState message="No finance data — import the Excel template to see financial metrics." />
+      )}
 
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -130,25 +107,31 @@ export function FinanceSection() {
             <CardTitle>NOI Evolution</CardTitle>
           </CardHeader>
           <CardContent>
-            <ChartContainer
-              config={{
-                monthly: { label: "Monthly", color: "hsl(var(--primary))" },
-                ytd: { label: "YTD", color: "hsl(var(--secondary))" },
-                forecast: { label: "Forecast", color: "hsl(var(--muted-foreground))" }
-              }}
-              className="h-[300px]"
-            >
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={displayNOIData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`} />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Line type="monotone" dataKey="monthly" stroke="hsl(var(--primary))" strokeWidth={2} />
-                  <Line type="monotone" dataKey="forecast" stroke="hsl(var(--muted-foreground))" strokeDasharray="5 5" />
-                </LineChart>
-              </ResponsiveContainer>
-            </ChartContainer>
+            {chartData.length > 0 ? (
+              <ChartContainer
+                config={{
+                  monthly: { label: "Monthly", color: "hsl(var(--primary))" },
+                  ytd: { label: "YTD", color: "hsl(var(--secondary))" },
+                  forecast: { label: "Forecast", color: "hsl(var(--muted-foreground))" }
+                }}
+                className="h-[300px]"
+              >
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`} />
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <Line type="monotone" dataKey="monthly" stroke="hsl(var(--primary))" strokeWidth={2} />
+                    <Line type="monotone" dataKey="forecast" stroke="hsl(var(--muted-foreground))" strokeDasharray="5 5" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </ChartContainer>
+            ) : (
+              <div className="h-[300px] flex items-center justify-center">
+                <EmptyState message="No NOI data — import the Excel template to see financial trends." />
+              </div>
+            )}
           </CardContent>
         </Card>
 

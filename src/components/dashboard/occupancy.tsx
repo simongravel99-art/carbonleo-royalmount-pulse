@@ -2,6 +2,12 @@ import { KPICard } from "@/components/ui/kpi-card"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, LineChart, Line } from "recharts"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { AlertTriangle } from "lucide-react"
+import { 
+  selectOccupancyLeasing, 
+  selectHasAnyData 
+} from "@/store/dashboard-store"
 
 const occupancyKPIs = [
   { title: "RM Occupancy %", value: "94.2", trend: 2.1, suffix: "%", variant: "success" },
@@ -39,22 +45,95 @@ const tenantMix = [
   { category: "Electronics", units: 8, occupancy: 88.9, lease: 94.4 }
 ]
 
+function EmptyState({ message }: { message: string }) {
+  return (
+    <Alert>
+      <AlertTriangle className="h-4 w-4" />
+      <AlertDescription>
+        {message}
+      </AlertDescription>
+    </Alert>
+  );
+}
+
 export function OccupancySection() {
+  const occupancyData = selectOccupancyLeasing();
+  const hasAnyData = selectHasAnyData();
+
+  // Process occupancy data for display
+  const processedKPIs = occupancyData.length > 0 ? [
+    {
+      title: "RM Occupancy %",
+      value: occupancyData[occupancyData.length - 1]?.['RM Occupancy (%)']?.toFixed(1) || "0",
+      trend: 2.1,
+      suffix: "%",
+      variant: "success" as const
+    },
+    {
+      title: "Mall Occupancy %",
+      value: occupancyData[occupancyData.length - 1]?.['Mall Occupancy (%)']?.toFixed(1) || "0",
+      trend: 1.5,
+      suffix: "%",
+      variant: "success" as const
+    },
+    {
+      title: "HSR Occupancy %",
+      value: occupancyData[occupancyData.length - 1]?.['HSR Occupancy (%)']?.toFixed(1) || "0",
+      trend: 1.8,
+      suffix: "%",
+      variant: "success" as const
+    },
+    {
+      title: "RM Leased %",
+      value: occupancyData[occupancyData.length - 1]?.['RM Leased (%)']?.toFixed(1) || "0",
+      trend: 0.9,
+      suffix: "%",
+      variant: "success" as const
+    },
+    {
+      title: "Mall Leased %",
+      value: occupancyData[occupancyData.length - 1]?.['Mall Leased (%)']?.toFixed(1) || "0",
+      trend: 3.2,
+      suffix: "%",
+      variant: "success" as const
+    },
+    {
+      title: "HSR Leased %",
+      value: occupancyData[occupancyData.length - 1]?.['HSR Leased (%)']?.toFixed(1) || "0",
+      trend: -0.6,
+      suffix: "%",
+      variant: "success" as const
+    }
+  ] : occupancyKPIs;
+
   return (
     <div className="space-y-6">
+      {/* Data Status Banner */}
+      {hasAnyData && (
+        <div className="bg-success/10 border border-success/20 rounded-lg p-4">
+          <p className="text-success text-sm font-medium">
+            ✓ Using imported data from Excel template
+          </p>
+        </div>
+      )}
+
       {/* KPI Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {occupancyKPIs.map((kpi, index) => (
-          <KPICard
-            key={index}
-            title={kpi.title}
-            value={kpi.value}
-            trend={kpi.trend}
-            suffix={kpi.suffix}
-            variant={kpi.variant as any}
-          />
-        ))}
-      </div>
+      {processedKPIs.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {processedKPIs.map((kpi, index) => (
+            <KPICard
+              key={index}
+              title={kpi.title}
+              value={kpi.value}
+              trend={kpi.trend}
+              suffix={kpi.suffix}
+              variant={kpi.variant as any}
+            />
+          ))}
+        </div>
+      ) : (
+        <EmptyState message="No occupancy data — import the Excel template to see occupancy metrics." />
+      )}
 
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

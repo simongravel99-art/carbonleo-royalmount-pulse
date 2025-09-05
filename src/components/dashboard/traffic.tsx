@@ -3,8 +3,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { TrafficBubbles } from "@/components/ui/traffic-bubbles"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from "recharts"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { AlertTriangle } from "lucide-react"
 import { calculateWeeklyMetrics } from "@/lib/traffic-utils"
 import { subWeeks } from "date-fns"
+import { 
+  selectTrafficParking, 
+  selectHasAnyData 
+} from "@/store/dashboard-store"
 
 const trafficKPIs = [
   { title: "Monthly Mall Visitors", value: "847K", trend: 15.8, variant: "success" },
@@ -70,7 +76,53 @@ const mockTrafficData = [
   { date: "2024-01-21", totalVisitors: 67000, marketShareTrafficPct: 71.3 }, // Sunday
 ]
 
+function EmptyState({ message }: { message: string }) {
+  return (
+    <Alert>
+      <AlertTriangle className="h-4 w-4" />
+      <AlertDescription>
+        {message}
+      </AlertDescription>
+    </Alert>
+  );
+}
+
 export function TrafficSection() {
+  const trafficData = selectTrafficParking();
+  const hasAnyData = selectHasAnyData();
+
+  // Process traffic data for KPIs
+  const processedKPIs = trafficData.length > 0 ? [
+    {
+      title: "Monthly Mall Visitors",
+      value: `${Math.round(trafficData[trafficData.length - 1]?.['Total Visitors'] / 1000)}K`,
+      trend: 15.8,
+      variant: "success"
+    },
+    {
+      title: "Monthly Market Share",
+      value: trafficData[trafficData.length - 1]?.['Market Share (%)']?.toFixed(1) || "0",
+      trend: 3.4,
+      suffix: "%",
+      variant: "success"
+    },
+    {
+      title: "Passerelle Traffic (%)",
+      value: trafficData[trafficData.length - 1]?.['Passerelle Traffic (%)']?.toFixed(1) || "0",
+      trend: 8.7,
+      suffix: "%",
+      variant: "success"
+    }
+  ] : trafficKPIs;
+
+  // Process traffic data for charts
+  const chartData = trafficData.map(item => ({
+    month: new Date(item.Date).toLocaleDateString('en', { month: 'short' }),
+    visitors: item['Total Visitors'] || 0,
+    marketShare: item['Market Share (%)'] || 0,
+    passerelle: item['Passerelle Traffic (%)'] || 0
+  }));
+
   // Calculate current week metrics
   const currentDateRange = { 
     from: new Date("2024-01-15"), 
@@ -86,20 +138,33 @@ export function TrafficSection() {
 
   return (
     <div className="space-y-6">
+      {/* Data Status Banner */}
+      {hasAnyData && (
+        <div className="bg-success/10 border border-success/20 rounded-lg p-4">
+          <p className="text-success text-sm font-medium">
+            ✓ Using imported data from Excel template
+          </p>
+        </div>
+      )}
+
       {/* KPI Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {trafficKPIs.map((kpi, index) => (
-          <KPICard
-            key={index}
-            title={kpi.title}
-            value={kpi.value}
-            trend={kpi.trend}
-            prefix={kpi.prefix}
-            suffix={kpi.suffix}
-            variant={kpi.variant as any}
-          />
-        ))}
-      </div>
+      {processedKPIs.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {processedKPIs.map((kpi, index) => (
+            <KPICard
+              key={index}
+              title={kpi.title}
+              value={kpi.value}
+              trend={kpi.trend}
+              prefix={kpi.prefix}
+              suffix={kpi.suffix}
+              variant={kpi.variant as any}
+            />
+          ))}
+        </div>
+      ) : (
+        <EmptyState message="No traffic data — import the Excel template to see traffic metrics." />
+      )}
 
       {/* Traffic Bubbles */}
       <TrafficBubbles 
@@ -115,25 +180,31 @@ export function TrafficSection() {
             <CardTitle>Visitor Traffic Trend</CardTitle>
           </CardHeader>
           <CardContent>
-            <ChartContainer
-              config={{
-                visitors: { label: "Visitors", color: "hsl(var(--chart-1))" },
-                marketShare: { label: "Market Share %", color: "hsl(var(--chart-2))" }
-              }}
-              className="h-[300px]"
-            >
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={trafficTrendData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis yAxisId="left" tickFormatter={(value) => `${(value / 1000).toFixed(0)}K`} />
-                  <YAxis yAxisId="right" orientation="right" tickFormatter={(value) => `${value}%`} />
-                  <ChartTooltip content={<ChartTooltipContent />} />
-                  <Line yAxisId="left" type="monotone" dataKey="visitors" stroke="hsl(var(--chart-1))" strokeWidth={2} dot={{ fill: "hsl(var(--chart-1))", r: 4 }} />
-                  <Line yAxisId="right" type="monotone" dataKey="marketShare" stroke="hsl(var(--chart-2))" strokeWidth={2} dot={{ fill: "hsl(var(--chart-2))", r: 4 }} />
-                </LineChart>
-              </ResponsiveContainer>
-            </ChartContainer>
+            {chartData.length > 0 ? (
+              <ChartContainer
+                config={{
+                  visitors: { label: "Visitors", color: "hsl(var(--chart-1))" },
+                  marketShare: { label: "Market Share %", color: "hsl(var(--chart-2))" }
+                }}
+                className="h-[300px]"
+              >
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis yAxisId="left" tickFormatter={(value) => `${(value / 1000).toFixed(0)}K`} />
+                    <YAxis yAxisId="right" orientation="right" tickFormatter={(value) => `${value}%`} />
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <Line yAxisId="left" type="monotone" dataKey="visitors" stroke="hsl(var(--chart-1))" strokeWidth={2} dot={{ fill: "hsl(var(--chart-1))", r: 4 }} />
+                    <Line yAxisId="right" type="monotone" dataKey="marketShare" stroke="hsl(var(--chart-2))" strokeWidth={2} dot={{ fill: "hsl(var(--chart-2))", r: 4 }} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </ChartContainer>
+            ) : (
+              <div className="h-[300px] flex items-center justify-center">
+                <EmptyState message="No traffic data — import the Excel template to see visitor trends." />
+              </div>
+            )}
           </CardContent>
         </Card>
 
